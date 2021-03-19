@@ -15,20 +15,11 @@ class Controller(object):
     def handle_client_ready(self, client):
         pass
 
-    async def handle_channel_message(self, message):
-        print(f'Message: {message}')
-
-        brooklyn_99_quotes = [
-            'I\'m the human form of the 💯 emoji.',
-            'Bingpot!',
-            (
-                'Cool. Cool cool cool cool cool cool cool, '
-                'no doubt no doubt no doubt no doubt.'
-            ),
-        ]
-
-        if message.content == '99!':
-            response = random.choice(brooklyn_99_quotes)
-            await message.channel.send(response)
-        elif message.content == 'eee':
-            raise discord.DiscordException
+    async def handle_new_skill_command(self, message, skill_name):
+        m = await message.channel.send(
+            f'---\n'
+            f'🌟 **{skill_name}** 🌟\n'
+            f'(if you have this skill, react with: 🧙)‍\n'
+            f'---\n'
+        )
+        await m.add_reaction('🧙‍♂️')
