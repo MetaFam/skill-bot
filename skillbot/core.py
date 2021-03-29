@@ -6,15 +6,17 @@ from . import helpers
 
 class Controller(discord.Client):
     """Top level controller for Skill Bot"""
-    def __init__(self, guild_name: str, channel_name: str, *args, **kwargs):
+    def __init__(self, guild_name: str, channel_name: str, skill_graph, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.guild_name = guild_name
         self.channel_name = channel_name
+        self.skill_graph = skill_graph
         print(
             'Starting...\n'
             f'Guild (a.k.a. server): {self.guild_name}\n'
             f'Watching channel: {self.channel_name}\n'
         )
+        self.skill_graph.print_stats()
 
     async def on_ready(self):
         print(f'🐛 {self.user} has connected to Discord!')
@@ -44,6 +46,8 @@ class Controller(discord.Client):
         message = reaction.message
         if self.is_skill_message_reaction(message, reaction, member):
             print(f'🐛 Skill reaction: {reaction} from {member}')
+            self.skill_graph.add_person(member.id, member.nick)
+            self.skill_graph.add_person_skill(member.id, message.id)
 
 
     def is_command(self, message):

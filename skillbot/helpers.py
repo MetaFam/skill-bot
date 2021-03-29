@@ -61,7 +61,7 @@ class AddSkillCommand(AbstractCommand):
         print(f'🐛 skill_name: {skill_name}')
         if not AddSkillCommand._skill_re.match(skill_name):
             raise Exception("Invalid skill name :shrug:")
-        self.skill_name = skill_name
+        self.skill_name = skill_name.lower()
 
     async def execute(self, client):
          m = await self.message.channel.send(
@@ -71,6 +71,7 @@ class AddSkillCommand(AbstractCommand):
             '-----\n'
             '*If you have this skill, react with ✅ to this message*'
          )
+         client.skill_graph.add_skill(m.id, self.skill_name)
          await m.add_reaction("✅")
 
 _commands_map = {
