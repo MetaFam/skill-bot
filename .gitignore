@@ -3,3 +3,5 @@ __pycache__
 *.pyc
 .venv
 .env
+*.png
+*.dot
