@@ -40,10 +40,10 @@ class Controller(discord.Client):
                 print(f'⚠️ Error handling message: "{message.content}":\n' + traceback.format_exc())
 
     async def on_reaction_add(self, reaction, member):
+        # print(f'🐛 Reaction: {reaction} Member: {member}')
         message = reaction.message
-        # print(f'🐛 Reaction: {reaction} Member: {member} Message: {reaction.message}')
-        # if self.is_skill_message(message) and self.is_skill_reaction(reaction, member):
-        #     print(f'🐛 Skill reaction: {reaction}')
+        if self.is_skill_message_reaction(message, reaction, member):
+            print(f'🐛 Skill reaction: {reaction} from {member}')
 
 
     def is_command(self, message):
@@ -54,20 +54,12 @@ class Controller(discord.Client):
             message.content.startswith('!sb')
         )
 
-    def is_skill_message(self, message):
+    def is_skill_message_reaction(self, message, reaction, member):
         return (
             message.author.id == self.user.id and
             message.guild.name == self.guild_name and
             message.channel.name == self.channel_name and
-            message.content.startswith('A new skill was added')
-        )
-
-    def is_skill_reaction(self, reaction, member):
-        print(f'me? {reaction.me}')
-        print(f'bot? {member.bot}')
-        print(f'eq? {int(reaction.emoji)} ?= {int("✅")}')
-        return (
-            not reaction.me and
+            message.content.startswith('A new skill was added') and
             not member.bot and
-            str(reaction) == '✅'
+            reaction.emoji == "✅"
         )
