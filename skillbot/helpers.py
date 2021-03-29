@@ -1,4 +1,5 @@
 import re
+from discord import File
 
 class AbstractCommand(object):
     """Base class for commands"""
@@ -74,10 +75,30 @@ class AddSkillCommand(AbstractCommand):
          client.skill_graph.add_skill(m.id, self.skill_name)
          await m.add_reaction("✅")
 
+class DrawFullGraphCommand(AbstractCommand):
+    """Creates an image of the whole graph"""
+
+    _name = "fullgraph"
+    _description = "Draw the full graph"
+    _example = None
+
+    def __init__(self, message, args):
+        super(DrawFullGraphCommand, self).__init__(message)
+
+    async def execute(self, client):
+        from skillrender import PNGRenderer
+        png_file = PNGRenderer(client.skill_graph).render()
+
+        m = await self.message.channel.send(
+            'Here is the current full graph of skills and people:\n',
+            file=File(png_file)
+        )
+
 _commands_map = {
     HelpCommand._name: HelpCommand,
     InfoCommand._name: InfoCommand,
     AddSkillCommand._name: AddSkillCommand,
+    DrawFullGraphCommand._name: DrawFullGraphCommand,
 }
 _command_re = re.compile('^!sb ([a-z]+)( .*)?$')
 

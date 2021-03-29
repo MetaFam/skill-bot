@@ -28,6 +28,6 @@ class SkillGraph(object):
         print(f'🌐 Add person: {person_name} (id: {person_id})')
         self.people[person_id] = person_name
 
-    def add_person_skill(self, skill_id: int, person_id: int):
+    def add_person_skill(self, person_id: int, skill_id: int):
         print(f'🌐 Link person: {person_id} to skill: {skill_id}')
         self.people_skills.append((skill_id, person_id))
