@@ -5,3 +5,5 @@ __pycache__
 .env
 *.png
 *.dot
+*.db
+*.sqlite
