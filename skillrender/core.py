@@ -10,11 +10,14 @@ class DotRenderer(object):
 
     def render(self):
         dg = Digraph(comment='Skill Graph')
-        for pid, pname in self.skill_graph.people.items():
+        for pid, pname in self.skill_graph.get_people():
+            # print(f"🎨 Person {pname} (P{pid})")
             dg.node(f'P{pid}', pname, shape="ellipse")
-        for sid, sname in self.skill_graph.skills.items():
+        for sid, sname in self.skill_graph.get_skills():
+            # print(f"🎨 Skill {sname} (S{sid})")
             dg.node(f'S{sid}', sname, shape="rectangle")
-        for sid, pid in self.skill_graph.people_skills:
+        for pid, sid in self.skill_graph.get_people_skills():
+            # print(f"🎨 Connect P{pid} S{sid}")
             dg.edge(f'P{pid}', f'S{sid}')
         return dg
 

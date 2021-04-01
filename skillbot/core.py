@@ -30,7 +30,7 @@ class Controller(discord.Client):
 
     async def on_message(self, message):
         if self.is_command(message):
-            print(f'🐛 Command: {message.content}\n{message}')
+            print(f'🐛 Command: {message.content}')
             try:
                 command = helpers.parse_command(message)
                 await command.execute(self)
@@ -43,13 +43,13 @@ class Controller(discord.Client):
 
     async def on_raw_reaction_add(self, payload):
         if not payload.member.bot and self.is_relevant_reaction(payload):
-            print("🐛 + Reaction: " + str(payload))
+            print("🐛 + Reaction")
             self.skill_graph.add_person(payload.member.id, payload.member.name)
             self.skill_graph.add_person_skill(payload.member.id, payload.message_id)
 
     async def on_raw_reaction_remove(self, payload):
         if self.is_relevant_reaction(payload):
-            print("🐛 - Reaction: " + str(payload))
+            print("🐛 - Reaction")
             self.skill_graph.remove_person_skill(payload.user_id, payload.message_id)
 
     def is_command(self, message):
@@ -61,7 +61,7 @@ class Controller(discord.Client):
         )
 
     def is_relevant_reaction(self, payload):
-        print("🐛 reaction payload: " + str(payload))
+        # print("🐛 reaction payload: " + str(payload))
         return (
             payload.guild_id == self.guild_id and
             payload.channel_id == self.channel_id and
