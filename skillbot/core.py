@@ -62,16 +62,6 @@ class Controller(discord.Client):
             message.content.startswith('!sb')
         )
 
-    def is_skill_message_reaction(self, message, reaction, member):
-        return (
-            message.author.id == self.user.id and
-            message.guild.name == self.guild_name and
-            message.channel.name == self.channel_name and
-            message.content.startswith('A new skill was added') and
-            not member.bot and
-            reaction.emoji == "✅"
-        )
-
     def is_relevant_reaction(self, payload):
         print("🐛 reaction payload: " + str(payload))
         return (
