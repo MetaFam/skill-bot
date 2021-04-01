@@ -10,6 +10,8 @@ class Controller(discord.Client):
         super().__init__(*args, **kwargs)
         self.guild_name = guild_name
         self.channel_name = channel_name
+        self.channel_id = 745693123505553461 # TODO
+        self.guild_id = 745693123505553458 # TODO
         self.skill_graph = skill_graph
         print(
             'Starting...\n'
@@ -41,14 +43,16 @@ class Controller(discord.Client):
                 )
                 print(f'⚠️ Error handling message: "{message.content}":\n' + traceback.format_exc())
 
-    async def on_reaction_add(self, reaction, member):
-        # print(f'🐛 Reaction: {reaction} Member: {member}')
-        message = reaction.message
-        if self.is_skill_message_reaction(message, reaction, member):
-            print(f'🐛 Skill reaction: {reaction} from {member}')
-            self.skill_graph.add_person(member.id, member.nick)
-            self.skill_graph.add_person_skill(member.id, message.id)
+    async def on_raw_reaction_add(self, payload):
+        if not payload.member.bot and self.is_relevant_reaction(payload):
+            print("🐛 + Reaction: " + str(payload))
+            self.skill_graph.add_person(payload.member.id, payload.member.name)
+            self.skill_graph.add_person_skill(payload.member.id, payload.message_id)
 
+    async def on_raw_reaction_remove(self, payload):
+        if self.is_relevant_reaction(payload):
+            print("🐛 - Reaction: " + str(payload))
+            self.skill_graph.remove_person_skill(payload.user_id, payload.message_id)
 
     def is_command(self, message):
         return (
@@ -66,4 +70,13 @@ class Controller(discord.Client):
             message.content.startswith('A new skill was added') and
             not member.bot and
             reaction.emoji == "✅"
+        )
+
+    def is_relevant_reaction(self, payload):
+        print("🐛 reaction payload: " + str(payload))
+        return (
+            payload.guild_id == self.guild_id and
+            payload.channel_id == self.channel_id and
+            payload.emoji.name == "✅" and
+            self.skill_graph.skill_exists(payload.message_id)
         )
