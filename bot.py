@@ -8,8 +8,8 @@ import skillgraph
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('GUILD_NAME')
-CHANNEL = os.getenv('MONITOR_CHANNEL_NAME')
+GUILD = int(os.getenv('GUILD_ID'))
+CHANNEL = int(os.getenv('MONITOR_CHANNEL_ID'))
 
 graph = skillgraph.SkillGraph()
 bot = skillbot.Controller(GUILD, CHANNEL, graph)

@@ -6,17 +6,15 @@ from . import helpers
 
 class Controller(discord.Client):
     """Top level controller for Skill Bot"""
-    def __init__(self, guild_name: str, channel_name: str, skill_graph, *args, **kwargs):
+    def __init__(self, guild_id: int, channel_id: int, skill_graph, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.guild_name = guild_name
-        self.channel_name = channel_name
-        self.channel_id = 745693123505553461 # TODO
-        self.guild_id = 745693123505553458 # TODO
+        self.channel_id = channel_id
+        self.guild_id = guild_id
         self.skill_graph = skill_graph
         print(
             'Starting...\n'
-            f'Guild (a.k.a. server): {self.guild_name}\n'
-            f'Watching channel: {self.channel_name}\n'
+            f'Guild (a.k.a. server): {self.guild_id}\n'
+            f'Watching channel: {self.channel_id}\n'
         )
         self.skill_graph.print_stats()
 
@@ -26,9 +24,9 @@ class Controller(discord.Client):
             print(
                 f'{self.user} connected to: {g.name} (id: {g.id})'
             )
-            if g.name == self.guild_name:
+            if g.id == self.guild_id:
                 return
-        raise Exception(f'Guild not found: {self.guild_name}')
+        raise Exception(f'Guild not found: {self.guild_id}')
 
     async def on_message(self, message):
         if self.is_command(message):
@@ -57,8 +55,8 @@ class Controller(discord.Client):
     def is_command(self, message):
         return (
             not message.author.bot and
-            message.guild.name == self.guild_name and
-            message.channel.name == self.channel_name and
+            message.guild.id == self.guild_id and
+            message.channel.id == self.channel_id and
             message.content.startswith('!sb')
         )
 
