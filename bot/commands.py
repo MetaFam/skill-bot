@@ -75,7 +75,7 @@ class DrawFullGraphCommand(AbstractCommand):
         super(DrawFullGraphCommand, self).__init__(message)
 
     async def execute(self, client):
-        from skillrender import PNGRenderer
+        from render import PNGRenderer
         png_file = PNGRenderer(client.repository).render()
 
         m = await self.message.channel.send(
