@@ -1,10 +1,10 @@
-from skillgraph import SkillGraph
+from skillgraph import SqliteSkillGraph
 from graphviz import Digraph
 
 class DotRenderer(object):
     """Renders a graph into a graphviz.Digraph object"""
 
-    def __init__(self, skill_graph: SkillGraph):
+    def __init__(self, skill_graph: SqliteSkillGraph):
         super(DotRenderer, self).__init__()
         self.skill_graph = skill_graph
 
@@ -24,7 +24,7 @@ class DotRenderer(object):
 class PNGRenderer(object):
     """Renders a graph in a PNG image file"""
 
-    def __init__(self, skill_graph: SkillGraph):
+    def __init__(self, skill_graph: SqliteSkillGraph):
         super(PNGRenderer, self).__init__()
         self.skill_graph = skill_graph
 
