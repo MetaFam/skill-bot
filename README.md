@@ -17,12 +17,28 @@ To facilitate social bonding and skills exchange:
 
 ## Project structure
 
-At the moment, this project consists of a single script that ingests data in CSV format and produces a .dot file (a.k.a. GraphViz format).
+#### ⚠️ HACK ALERT ⚠️
+The source of this project is *hack-level* quality.
+It was stringed together in less than a week.
+Please calibrate your expectations accordingly. For example:
 
-The idea is to start from here and incrementally make this better and more useful.
+ * ❌ Most of the code is not covered by tests
+ * ❌ Code is a hodgepodge of classes, static functions, globals, etc (thanks, Python!)
+ * ❌ Some calls are not thread-safe
+ * ❌ The data model is as simple as it gets
+ * ❌ The rendering is pretty rudimentary
+ * etc.
 
- * Slurp data from Discord (where people can self-report their skills in a special channel)
- * Calculate edges with different heuristics to highlight different aspects of the network
- * Allow filtering of people and skills
- * Create interactive web-based visualizations
- * ...
+That said, it's in pretty good shape for a hack. Future improvements (if anyone is willing) should be possible incrementally.
+
+### Code overview
+
+...
+
+### Deployment
+
+...
+
+### License
+
+...
