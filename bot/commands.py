@@ -62,7 +62,7 @@ class AddSkillCommand(AbstractCommand):
             embed=messages.new_skill_message(self.skill_name)
          )
          await m.add_reaction("✅")
-         client.skill_graph.add_skill(m.id, self.skill_name)
+         client.create_skill(m.id, self.skill_name)
 
 class DrawFullGraphCommand(AbstractCommand):
     """Creates an image of the whole graph"""
@@ -76,7 +76,7 @@ class DrawFullGraphCommand(AbstractCommand):
 
     async def execute(self, client):
         from skillrender import PNGRenderer
-        png_file = PNGRenderer(client.skill_graph).render()
+        png_file = PNGRenderer(client.repository).render()
 
         m = await self.message.channel.send(
             embed=messages.FULL_GRAPH,

@@ -1,7 +1,7 @@
 import sqlite3
 from os.path import exists as file_exists
 
-class SqliteSkillGraph(object):
+class SqliteRepository(object):
     """
     Graph holding a consistent view of skills, people, and their
     relationships. Implemented with SQLite3.
@@ -42,12 +42,12 @@ class SqliteSkillGraph(object):
     __SELECT_ALL_PEOPLE_SKILLS = "SELECT person_id, skill_id FROM people_skills;"
 
     def __init__(self, database_file):
-        super(SqliteSkillGraph, self).__init__()
+        super(SqliteRepository, self).__init__()
         if not file_exists(database_file):
             print(f'🌐 Initializing database: {database_file}')
             new_db_uri = f'file:{database_file}?mode=rwc'
             new_db = sqlite3.connect(new_db_uri, uri=True)
-            for statement in SqliteSkillGraph.__DB_INIT:
+            for statement in SqliteRepository.__DB_INIT:
                 new_db.execute(statement)
             new_db.close()
         db_uri = f'file:{database_file}?mode=rw'
@@ -63,32 +63,32 @@ class SqliteSkillGraph(object):
 
     def add_skill(self, skill_id: int, skill_name: str):
         print(f'🌐 Add skill: {skill_name} (id: {skill_id})')
-        self.db.execute(SqliteSkillGraph.__CREATE_IF_NOT_EXIST_SKILL, [skill_id, skill_name])
+        self.db.execute(SqliteRepository.__CREATE_IF_NOT_EXIST_SKILL, [skill_id, skill_name])
         self.db.commit()
 
     def add_person(self, person_id: int, person_name: str):
         print(f'🌐 Add person: {person_name} (id: {person_id})')
-        self.db.execute(SqliteSkillGraph.__CREATE_IF_NOT_EXIST_PERSON, [person_id, person_name])
+        self.db.execute(SqliteRepository.__CREATE_IF_NOT_EXIST_PERSON, [person_id, person_name])
         self.db.commit()
 
     def add_person_skill(self, person_id: int, skill_id: int):
         print(f'🌐 Link person: {person_id} to skill: {skill_id}')
-        self.db.execute(SqliteSkillGraph.__ADD_PERSON_SKILL, [person_id, skill_id])
+        self.db.execute(SqliteRepository.__ADD_PERSON_SKILL, [person_id, skill_id])
         self.db.commit()
 
     def remove_person_skill(self, person_id: int, skill_id: int):
         print(f'🌐 Unlink person: {person_id} to skill: {skill_id}')
-        self.db.execute(SqliteSkillGraph.__REMOVE_PERSON_SKILL, [person_id, skill_id])
+        self.db.execute(SqliteRepository.__REMOVE_PERSON_SKILL, [person_id, skill_id])
         self.db.commit()
 
     def skill_exists(self, skill_id: int):
-        return self.db.execute(SqliteSkillGraph.__SKILL_EXISTS, [skill_id]).fetchone()[0] == 1
+        return self.db.execute(SqliteRepository.__SKILL_EXISTS, [skill_id]).fetchone()[0] == 1
 
     def get_skills(self):
-        return self.db.execute(SqliteSkillGraph.__SELECT_ALL_SKILLS).fetchall()
+        return self.db.execute(SqliteRepository.__SELECT_ALL_SKILLS).fetchall()
 
     def get_people(self):
-        return self.db.execute(SqliteSkillGraph.__SELECT_ALL_PEOPLE).fetchall()
+        return self.db.execute(SqliteRepository.__SELECT_ALL_PEOPLE).fetchall()
 
     def get_people_skills(self):
-        return self.db.execute(SqliteSkillGraph.__SELECT_ALL_PEOPLE_SKILLS).fetchall()
+        return self.db.execute(SqliteRepository.__SELECT_ALL_PEOPLE_SKILLS).fetchall()

@@ -7,17 +7,17 @@ from . import messages
 
 class Controller(discord.Client):
     """Top level controller for Skill Bot"""
-    def __init__(self, guild_id: int, channel_id: int, skill_graph, *args, **kwargs):
+    def __init__(self, guild_id: int, channel_id: int, repository, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.channel_id = channel_id
         self.guild_id = guild_id
-        self.skill_graph = skill_graph
+        self.repository = repository
         print(
             'Starting...\n'
             f'Guild (a.k.a. server): {self.guild_id}\n'
             f'Watching channel: {self.channel_id}\n'
         )
-        self.skill_graph.print_stats()
+        self.repository.print_stats()
 
     async def on_ready(self):
         print(f'🐛 {self.user} has connected to Discord!')
@@ -45,13 +45,13 @@ class Controller(discord.Client):
     async def on_raw_reaction_add(self, payload):
         if not payload.member.bot and self.is_relevant_reaction(payload):
             print("🐛 + Reaction")
-            self.skill_graph.add_person(payload.member.id, payload.member.name)
-            self.skill_graph.add_person_skill(payload.member.id, payload.message_id)
+            self.repository.add_person(payload.member.id, payload.member.name)
+            self.repository.add_person_skill(payload.member.id, payload.message_id)
 
     async def on_raw_reaction_remove(self, payload):
         if self.is_relevant_reaction(payload):
             print("🐛 - Reaction")
-            self.skill_graph.remove_person_skill(payload.user_id, payload.message_id)
+            self.repository.remove_person_skill(payload.user_id, payload.message_id)
 
     def is_command(self, message):
         return (
@@ -67,5 +67,8 @@ class Controller(discord.Client):
             payload.guild_id == self.guild_id and
             payload.channel_id == self.channel_id and
             payload.emoji.name == "✅" and
-            self.skill_graph.skill_exists(payload.message_id)
+            self.repository.skill_exists(payload.message_id)
         )
+    
+    def create_skill(self, skill_id: int, skill_name: str):
+        self.repository.add_skill(skill_id, skill_name)

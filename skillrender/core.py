@@ -1,22 +1,22 @@
-from skillgraph import SqliteSkillGraph
+from repository import SqliteRepository
 from graphviz import Digraph
 
 class DotRenderer(object):
     """Renders a graph into a graphviz.Digraph object"""
 
-    def __init__(self, skill_graph: SqliteSkillGraph):
+    def __init__(self, repo: SqliteRepository):
         super(DotRenderer, self).__init__()
-        self.skill_graph = skill_graph
+        self.repo = repo
 
     def render(self):
         dg = Digraph(comment='Skill Graph')
-        for pid, pname in self.skill_graph.get_people():
+        for pid, pname in self.repo.get_people():
             # print(f"🎨 Person {pname} (P{pid})")
             dg.node(f'P{pid}', pname, shape="ellipse")
-        for sid, sname in self.skill_graph.get_skills():
+        for sid, sname in self.repo.get_skills():
             # print(f"🎨 Skill {sname} (S{sid})")
             dg.node(f'S{sid}', sname, shape="rectangle")
-        for pid, sid in self.skill_graph.get_people_skills():
+        for pid, sid in self.repo.get_people_skills():
             # print(f"🎨 Connect P{pid} S{sid}")
             dg.edge(f'P{pid}', f'S{sid}')
         return dg
@@ -24,10 +24,10 @@ class DotRenderer(object):
 class PNGRenderer(object):
     """Renders a graph in a PNG image file"""
 
-    def __init__(self, skill_graph: SqliteSkillGraph):
+    def __init__(self, repo: SqliteRepository):
         super(PNGRenderer, self).__init__()
-        self.skill_graph = skill_graph
+        self.repo = repo
 
     def render(self):
-        dot = DotRenderer(self.skill_graph).render()
+        dot = DotRenderer(self.repo).render()
         return dot.render(format="png", filename='./graph.dot', view=False)
