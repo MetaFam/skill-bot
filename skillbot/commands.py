@@ -1,6 +1,8 @@
 import re
 from discord import File
 
+from . import messages
+
 class AbstractCommand(object):
     """Base class for commands"""
 
@@ -22,12 +24,7 @@ class HelpCommand(AbstractCommand):
         super(HelpCommand, self).__init__(message)
 
     async def execute(self, client):
-         await self.message.channel.send(
-            "Skillbot help:\n"
-            "```\n"
-            "...\n"
-            "```\n"
-        )
+        await self.message.channel.send(embed=messages.HELP)
 
 class InfoCommand(AbstractCommand):
     """Responds with a message with bot information"""
@@ -40,12 +37,8 @@ class InfoCommand(AbstractCommand):
         super(InfoCommand, self).__init__(message)
 
     async def execute(self, client):
-         await self.message.channel.send(
-            "Skillbot info:\n"
-            "```\n"
-            "...\n"
-            "```\n"
-        )
+        await self.message.channel.send(embed=messages.INFO)
+
 
 class AddSkillCommand(AbstractCommand):
     """Creates a new skill in the graph"""
@@ -66,14 +59,10 @@ class AddSkillCommand(AbstractCommand):
 
     async def execute(self, client):
          m = await self.message.channel.send(
-            'A new skill was added to the graph:\n'
-            '-----\n'
-            f'  ⭐️ **{self.skill_name}** ⭐️\n'
-            '-----\n'
-            '*If you have this skill, react with ✅ to this message*'
+            embed=messages.new_skill_message(self.skill_name)
          )
-         client.skill_graph.add_skill(m.id, self.skill_name)
          await m.add_reaction("✅")
+         client.skill_graph.add_skill(m.id, self.skill_name)
 
 class DrawFullGraphCommand(AbstractCommand):
     """Creates an image of the whole graph"""
@@ -90,7 +79,7 @@ class DrawFullGraphCommand(AbstractCommand):
         png_file = PNGRenderer(client.skill_graph).render()
 
         m = await self.message.channel.send(
-            'Here is the current full graph of skills and people:\n',
+            embed=messages.FULL_GRAPH,
             file=File(png_file)
         )
 

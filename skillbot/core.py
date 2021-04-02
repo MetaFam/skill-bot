@@ -2,7 +2,8 @@ import re
 import traceback
 import discord
 
-from . import helpers
+from . import commands
+from . import messages
 
 class Controller(discord.Client):
     """Top level controller for Skill Bot"""
@@ -25,6 +26,7 @@ class Controller(discord.Client):
                 f'{self.user} connected to: {g.name} (id: {g.id})'
             )
             if g.id == self.guild_id:
+                await g.get_channel(self.channel_id).send(embed=messages.HELLO)
                 return
         raise Exception(f'Guild not found: {self.guild_id}')
 
@@ -32,14 +34,13 @@ class Controller(discord.Client):
         if self.is_command(message):
             print(f'🐛 Command: {message.content}')
             try:
-                command = helpers.parse_command(message)
+                command = commands.parse_command(message)
                 await command.execute(self)
             except Exception as e:
-                exception_message = repr(e)
-                await message.channel.send(
-                    f'Command error: {exception_message}'
-                )
                 print(f'⚠️ Error handling message: "{message.content}":\n' + traceback.format_exc())
+                await message.channel.send(
+                    embed=messages.command_error_message(message.content, e)
+                )
 
     async def on_raw_reaction_add(self, payload):
         if not payload.member.bot and self.is_relevant_reaction(payload):
