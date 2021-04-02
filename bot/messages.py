@@ -58,3 +58,21 @@ def new_skill_message(skill_name):
             **React with {REACTION} to this message if you have this skill or interest**
         '''
     )
+
+def help_message(commands):
+    embed = discord.Embed(
+        title = "❓\nHelp!",
+        colour = COLOR,
+        description = f'''
+            To create a new skill or interest that does not exist yet, see the command below.
+            People can then mark themselves able (for a skill) or interested (for an interest) by reacting with {REACTION} to the bot message.
+        '''
+    )
+    for c in commands:
+        command_string = f"`!sb {c._name}`"
+        description = c._description
+        if c._example_arguments:
+            for ex in c._example_arguments:
+                description += f'\n*Example*: `!sb {c._name}` {ex}'
+        embed.add_field(name=command_string, value=description)
+    return embed

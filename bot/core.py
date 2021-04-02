@@ -2,16 +2,18 @@ import re
 import traceback
 import discord
 
-from . import commands
 from . import messages
 
 class Controller(discord.Client):
     """Top level controller for Skill Bot"""
-    def __init__(self, guild_id: int, channel_id: int, repository, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, guild_id: int, channel_id: int, repository, commands):
+        super().__init__()
         self.channel_id = channel_id
         self.guild_id = guild_id
         self.repository = repository
+        self.commands_map = {}
+        for c in commands:
+            self.commands_map[c._name] = c
         print(
             'Starting...\n'
             f'Guild (a.k.a. server): {self.guild_id}\n'
@@ -34,7 +36,7 @@ class Controller(discord.Client):
         if self.is_command(message):
             print(f'🐛 Command: {message.content}')
             try:
-                command = commands.parse_command(message)
+                command = self.parse_command(message)
                 await command.execute(self)
             except Exception as e:
                 print(f'⚠️ Error handling message: "{message.content}":\n' + traceback.format_exc())
@@ -69,6 +71,27 @@ class Controller(discord.Client):
             payload.emoji.name == "✅" and
             self.repository.skill_exists(payload.message_id)
         )
-    
+
     def create_skill(self, skill_id: int, skill_name: str):
         self.repository.add_skill(skill_id, skill_name)
+
+    _command_re = re.compile('^!sb ([a-z]+)( .*)?$')
+
+    def parse_command(self, message):
+        match = Controller._command_re.match(message.content)
+        if not match:
+            raise Exception("Unrecognized command, Try `!sb help`.")
+
+        command_name = match.group(1)
+        command_args = match.group(2)
+        if command_args:
+            command_args = command_args.strip()
+        command_class = self.commands_map.get(command_name)
+
+        if not command_class:
+            raise Exception("Unrecognized command, Try `!sb help`.")
+
+        return command_class(message, command_args)
+
+    def get_commands(self):
+        return self.commands_map.values()

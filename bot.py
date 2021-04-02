@@ -14,4 +14,11 @@ DB_FILE = f'{GUILD}-{CHANNEL}.sqlite'
 
 repo = repository.SqliteRepository(DB_FILE)
 
-bot.Controller(GUILD, CHANNEL, repo).run(TOKEN)
+commands = [
+    bot.HelpCommand,
+    bot.InfoCommand,
+    bot.AddSkillCommand,
+    bot.DrawFullGraphCommand,
+]
+
+bot.Controller(GUILD, CHANNEL, repo, commands).run(TOKEN)

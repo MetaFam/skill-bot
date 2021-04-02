@@ -18,20 +18,22 @@ class HelpCommand(AbstractCommand):
 
     _name = "help"
     _description = "Display bot usage and help"
-    _example = None
+    _example_arguments = None
 
     def __init__(self, message, args):
         super(HelpCommand, self).__init__(message)
 
     async def execute(self, client):
-        await self.message.channel.send(embed=messages.HELP)
+        await self.message.channel.send(
+            embed=messages.help_message(client.get_commands())
+        )
 
 class InfoCommand(AbstractCommand):
     """Responds with a message with bot information"""
 
     _name = "info"
     _description = "Display bot info"
-    _example = None
+    _example_arguments = None
 
     def __init__(self, message, args):
         super(InfoCommand, self).__init__(message)
@@ -45,12 +47,14 @@ class AddSkillCommand(AbstractCommand):
 
     _name = "new"
     _description = "Create a new skill"
-    _example = None
+    _example_arguments = ["fishing", "dancing"]
     _skill_re = re.compile('^[\w][\w_]+$')
 
     def __init__(self, message, args):
         super(AddSkillCommand, self).__init__(message)
         print(f'🐛 Args: {args}')
+        if not args:
+            raise Exception("Missing skill name :shrug:")
         skill_name = re.sub(r'\W+', '_', args)
         print(f'🐛 skill_name: {skill_name}')
         if not AddSkillCommand._skill_re.match(skill_name):
@@ -69,7 +73,7 @@ class DrawFullGraphCommand(AbstractCommand):
 
     _name = "fullgraph"
     _description = "Draw the full graph"
-    _example = None
+    _example_arguments = None
 
     def __init__(self, message, args):
         super(DrawFullGraphCommand, self).__init__(message)
@@ -82,29 +86,3 @@ class DrawFullGraphCommand(AbstractCommand):
             embed=messages.FULL_GRAPH,
             file=File(png_file)
         )
-
-_commands_map = {
-    HelpCommand._name: HelpCommand,
-    InfoCommand._name: InfoCommand,
-    AddSkillCommand._name: AddSkillCommand,
-    DrawFullGraphCommand._name: DrawFullGraphCommand,
-}
-_command_re = re.compile('^!sb ([a-z]+)( .*)?$')
-
-def parse_command(message):
-    match = _command_re.match(message.content)
-    if not match:
-        raise Exception("Unrecognized command, Try `!sb help`.")
-
-    command_name = match.group(1)
-    command_args = match.group(2)
-    if command_args:
-        command_args = command_args.strip()
-    if command_args == "":
-        command_args = None
-    command_class = _commands_map.get(command_name)
-
-    if not command_class:
-        raise Exception("Unrecognized command, Try `!sb help`.")
-
-    return command_class(message, command_args)
