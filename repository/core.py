@@ -92,3 +92,18 @@ class SqliteRepository(object):
 
     def get_people_skills(self):
         return self.db.execute(SqliteRepository.__SELECT_ALL_PEOPLE_SKILLS).fetchall()
+
+    def get_graph_snapshot(self):
+        import model
+        g = model.Graph()
+        people_skills = self.get_people_skills()
+        people = self.get_people()
+        skills = self.get_skills()
+
+        for p_row in people:
+            g.add_person(model.Person(p_row[0], p_row[1]))
+        for s_row in skills:
+            g.add_skill(model.Skill(s_row[0], s_row[1]))
+        for ps_row in people_skills:
+            g.link_person_to_skill(ps_row[0], ps_row[1])
+        return g

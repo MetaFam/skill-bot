@@ -1,4 +1,80 @@
 
+def print_graph(g):
+    print(f"People: {len(g.people)}")
+    for pid, p in g.people.items():
+        print(f" * {p.name} ({p.id})")
+        for s in p.skills:
+            print(f"   - {s.name} ({s.id})")
+
+    print(f"Skills: {len(g.skills)}")
+    for sid, s in g.skills.items():
+        print(f" * {s.name} ({s.id})")
+        for p in s.people:
+            print(f"   - {p.name} ({p.id})")
+
+    print(f"People skills: {len(g.people_skills)}")
+    for person, skill in g.people_skills:
+        print(f"{person.name} <-> {skill.name}")
+
+#############################
+# Model tests
+#############################
+
+import model
+
+p1 = model.Person(1, "Alice")
+p2 = model.Person(2, "Bob")
+p3 = model.Person(3, "Charles")
+
+s1 = model.Skill(11, "Dancing")
+s2 = model.Skill(22, "Fishing")
+
+g = model.Graph()
+
+g.add_person(p1)
+g.add_person(p2)
+g.add_person(p3)
+
+g.add_skill(s1)
+g.add_skill(s2)
+
+g.link_person_to_skill(1, 11)
+g.link_person_to_skill(1, 22)
+g.link_person_to_skill(2, 11)
+g.link_person_to_skill(3, 22)
+
+assert g.people[p1.id] == p1
+assert g.people[p2.id] == p2
+assert g.people[p3.id] == p3
+assert g.skills[s1.id] == s1
+assert g.skills[s2.id] == s2
+
+assert p1 in s1.people
+assert p1 in s2.people
+assert p2 in s1.people
+assert p3 in s2.people
+
+assert s1 in p1.skills
+assert s2 in p1.skills
+assert s1 in p2.skills
+assert s2 in p3.skills
+
+assert len(g.people_skills) == 4
+
+for s in [s1, s2]:
+    for p in s.people:
+        assert (p, s) in g.people_skills
+
+for p in [p1, p2, p3]:
+    for s in p.skills:
+        assert (p, s) in g.people_skills
+
+print_graph(g)
+
+#############################
+# Repository tests
+#############################
+
 import os
 import repository
 
@@ -107,3 +183,15 @@ assert len(people_skills) == 3
 assert (1, 111) in people_skills
 assert (2, 111) in people_skills
 assert (2, 333) in people_skills
+
+#############################
+# Repository + model test
+#############################
+
+g = repo.get_graph_snapshot()
+
+assert len(g.people) == 2
+assert len(g.skills) == 3
+assert len(g.people_skills) == 3
+
+print_graph(g)
