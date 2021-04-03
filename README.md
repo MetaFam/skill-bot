@@ -31,6 +31,12 @@ Please calibrate your expectations accordingly. For example:
 
 That said, it's in pretty good shape for a hack. Future improvements (if anyone is willing) should be possible incrementally.
 
+### Dependencies
+
+**Python 3** and it's dependencies listed in `requirements.txt`.
+
+The `dot` utility (on Linux and macOS, this is part of the `graphviz` package)
+
 ### Code overview
 
 ...
