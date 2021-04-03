@@ -104,6 +104,10 @@ assert repo.skill_exists(111)
 assert repo.skill_exists(222)
 assert repo.skill_exists(333)
 assert not repo.skill_exists(444)
+assert repo.find_skill("Hunting") == 111
+assert repo.find_skill("Fishing") == 222
+assert repo.find_skill("Farming") == 333
+assert repo.find_skill("Dancing") == None
 
 skills = repo.get_skills()
 assert len(skills) == 3

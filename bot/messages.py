@@ -59,6 +59,18 @@ def new_skill_message(skill_name):
         '''
     )
 
+def duplicate_skill_message(skill_name: str, skill_id: int, guild_id: int, channel_id: int):
+    return discord.Embed(
+        title = f'Duplicate {skill_name}',
+        colour = COLOR,
+        description = f'''
+            The skill you tried to create already exists!
+
+            You should react with {REACTION} to the original message:
+            https://discord.com/channels/{guild_id}/{channel_id}/{skill_id}
+        '''
+    )
+
 def help_message(commands):
     embed = discord.Embed(
         title = "❓\nHelp!",

@@ -62,12 +62,7 @@ class AddSkillCommand(AbstractCommand):
         self.skill_name = skill_name.lower()
 
     async def execute(self, client):
-
-        m = await self.message.channel.send(
-        embed=messages.new_skill_message(self.skill_name)
-        )
-        await m.add_reaction("✅")
-        client.create_skill(m.id, self.skill_name)
+        await client.create_skill(self.skill_name)
 
 class DrawFullGraphCommand(AbstractCommand):
     """Creates an image of the whole graph"""

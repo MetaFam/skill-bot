@@ -72,8 +72,20 @@ class Controller(discord.Client):
             self.repository.skill_exists(payload.message_id)
         )
 
-    def create_skill(self, skill_id: int, skill_name: str):
-        self.repository.add_skill(skill_id, skill_name)
+    async def create_skill(self, skill_name: str):
+        sid = self.repository.find_skill(skill_name)
+        if sid:
+            print("🐛 Duplicate skill: " + skill_name)
+            await self.get_channel(self.channel_id).send(
+                embed=messages.duplicate_skill_message(skill_name, sid, self.guild_id, self.channel_id)
+            )
+        else:
+            m = await self.get_channel(self.channel_id).send(
+                embed=messages.new_skill_message(skill_name)
+            )
+            self.repository.add_skill(m.id, skill_name)
+            await m.add_reaction("✅")
+
 
     _command_re = re.compile('^!sb ([a-z]+)( .*)?$')
 

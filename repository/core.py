@@ -28,6 +28,7 @@ class SqliteRepository(object):
         );
         ''',
         'CREATE UNIQUE INDEX idx_skills_id ON skills(skill_id);',
+        'CREATE UNIQUE INDEX idx_skills_names ON skills(skill_name);',
         'CREATE UNIQUE INDEX idx_people_id ON people(person_id);',
         'CREATE UNIQUE INDEX idx_people_skills ON people_skills(person_id, skill_id);',
     ]
@@ -86,6 +87,14 @@ class SqliteRepository(object):
 
     def get_skills(self):
         return self.db.execute(SqliteRepository.__SELECT_ALL_SKILLS).fetchall()
+
+    def find_skill(self, skill_name):
+        row = self.db.execute('SELECT skill_id FROM skills WHERE skill_name = ?', [skill_name]).fetchone()
+        if row:
+            return row[0]
+        else:
+            return None
+
 
     def get_people(self):
         return self.db.execute(SqliteRepository.__SELECT_ALL_PEOPLE).fetchall()
