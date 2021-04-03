@@ -1,33 +1,30 @@
-from repository import SqliteRepository
 from graphviz import Digraph
+import model
 
 class DotRenderer(object):
     """Renders a graph into a graphviz.Digraph object"""
 
-    def __init__(self, repo: SqliteRepository):
+    def __init__(self, graph: model.Graph):
         super(DotRenderer, self).__init__()
-        self.repo = repo
+        self.graph = graph
 
     def render(self):
         dg = Digraph(comment='Skill Graph')
-        for pid, pname in self.repo.get_people():
-            # print(f"🎨 Person {pname} (P{pid})")
-            dg.node(f'P{pid}', pname, shape="ellipse")
-        for sid, sname in self.repo.get_skills():
-            # print(f"🎨 Skill {sname} (S{sid})")
-            dg.node(f'S{sid}', sname, shape="rectangle")
-        for pid, sid in self.repo.get_people_skills():
-            # print(f"🎨 Connect P{pid} S{sid}")
-            dg.edge(f'P{pid}', f'S{sid}')
+        for p in self.graph.people.values():
+            dg.node(f'P{p.id}', p.name, shape="ellipse")
+        for s in self.graph.skills.values():
+            dg.node(f'S{s.id}', s.name, shape="rectangle")
+        for p, s in self.graph.people_skills:
+            dg.edge(f'P{p.id}', f'S{s.id}')
         return dg
 
 class PNGRenderer(object):
     """Renders a graph in a PNG image file"""
 
-    def __init__(self, repo: SqliteRepository):
+    def __init__(self, graph: model.Graph):
         super(PNGRenderer, self).__init__()
-        self.repo = repo
+        self.graph = graph
 
     def render(self):
-        dot = DotRenderer(self.repo).render()
+        dot = DotRenderer(self.graph).render()
         return dot.render(format="png", filename='./graph.dot', view=False)

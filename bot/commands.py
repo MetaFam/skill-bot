@@ -80,7 +80,7 @@ class DrawFullGraphCommand(AbstractCommand):
 
     async def execute(self, client):
         from render import PNGRenderer
-        png_file = PNGRenderer(client.repository).render()
+        png_file = PNGRenderer(client.get_graph_snapshot()).render()
 
         m = await self.message.channel.send(
             embed=messages.FULL_GRAPH,

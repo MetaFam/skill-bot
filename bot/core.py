@@ -95,3 +95,6 @@ class Controller(discord.Client):
 
     def get_commands(self):
         return self.commands_map.values()
+
+    def get_graph_snapshot(self):
+        return self.repository.get_graph_snapshot()
