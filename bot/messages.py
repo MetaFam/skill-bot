@@ -73,6 +73,6 @@ def help_message(commands):
         description = c._description
         if c._example_arguments:
             for ex in c._example_arguments:
-                description += f'\n*Example*: `!sb {c._name}` {ex}'
+                description += f'\n*Example*: `!sb {c._name} {ex}`'
         embed.add_field(name=command_string, value=description)
     return embed
