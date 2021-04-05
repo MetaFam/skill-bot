@@ -53,7 +53,7 @@ def command_error_message(command, e):
 
 def new_skill_message(skill_name):
     return discord.Embed(
-        title = f'⭐️\n{skill_name}',
+        title = f'⭐️ {skill_name} ⭐️',
         colour = COLOR,
         description = f'''
             New skill/interest created.
