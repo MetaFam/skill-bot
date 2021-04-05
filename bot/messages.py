@@ -25,7 +25,10 @@ INFO = discord.Embed(
     title = "ℹ️\nInfo!",
     colour = COLOR,
     description = DESCRIPTION + '''
-        `...`
+        This bot is an experiment (more precisely, a hack for MetaFest 2021).
+
+        Suggestions? Bugs? Wanna help?
+        Ping @mprime on Metagame.
     '''
 )
 
