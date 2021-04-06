@@ -1,11 +1,12 @@
 from graphviz import Digraph
+from graphviz.dot import Dot
 import model
 
-class DotRenderer(object):
-    """Renders a graph into a graphviz.Digraph object"""
+class FullGraphDotRenderer(object):
+    """Renders the full graph into a graphviz.Digraph object"""
 
     def __init__(self, graph: model.Graph):
-        super(DotRenderer, self).__init__()
+        super(FullGraphDotRenderer, self).__init__()
         self.graph = graph
 
     def render(self):
@@ -21,10 +22,9 @@ class DotRenderer(object):
 class PNGRenderer(object):
     """Renders a graph in a PNG image file"""
 
-    def __init__(self, graph: model.Graph):
+    def __init__(self, dot_graph: Dot):
         super(PNGRenderer, self).__init__()
-        self.graph = graph
+        self.dot_graph = dot_graph
 
     def render(self):
-        dot = DotRenderer(self.graph).render()
-        return dot.render(format="png", filename='./graph.dot', view=False)
+        return self.dot_graph.render(format="png", filename='./graph.dot', view=False)

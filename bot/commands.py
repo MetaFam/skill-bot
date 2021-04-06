@@ -75,8 +75,9 @@ class DrawFullGraphCommand(AbstractCommand):
         super(DrawFullGraphCommand, self).__init__(message)
 
     async def execute(self, client):
-        from render import PNGRenderer
-        png_file = PNGRenderer(client.get_graph_snapshot()).render()
+        from render import PNGRenderer, FullGraphDotRenderer
+        dot_graph = FullGraphDotRenderer(client.get_graph_snapshot()).render()
+        png_file = PNGRenderer(dot_graph).render()
 
         m = await self.message.channel.send(
             embed=messages.FULL_GRAPH,
