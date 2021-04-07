@@ -56,12 +56,12 @@ class WordCloudDotRenderer(object):
             # print(f'{skill.name}: {len(skill.people)} (max: {max_people}) -> {normalized} -> {font_size}')
         return font_sizes_map
 
-class PNGRenderer(object):
-    """Renders a graph in a PNG image file"""
+class ImageFileRenderer(object):
+    """Renders a graph into an image file"""
 
     def __init__(self, dot_graph: Dot):
-        super(PNGRenderer, self).__init__()
+        super(ImageFileRenderer, self).__init__()
         self.dot_graph = dot_graph
 
-    def render(self, path_prefix: str = './graph.dot'):
-        return self.dot_graph.render(format="png", filename=path_prefix, view=False)
+    def render(self, path_prefix: str = './graph.dot', image_format: str = 'jpg'):
+        return self.dot_graph.render(format=image_format, filename=path_prefix, view=False)

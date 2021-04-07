@@ -75,9 +75,9 @@ class DrawFullGraphCommand(AbstractCommand):
         super(DrawFullGraphCommand, self).__init__(message)
 
     async def execute(self, client):
-        from render import PNGRenderer, FullGraphDotRenderer
+        from render import ImageFileRenderer, FullGraphDotRenderer
         dot_graph = FullGraphDotRenderer(client.get_graph_snapshot()).render()
-        png_file = PNGRenderer(dot_graph).render()
+        png_file = ImageFileRenderer(dot_graph).render()
 
         m = await self.message.channel.send(
             embed=messages.FULL_GRAPH,
@@ -95,9 +95,9 @@ class DrawWordCloudCommand(AbstractCommand):
         super(DrawWordCloudCommand, self).__init__(message)
 
     async def execute(self, client):
-        from render import PNGRenderer, WordCloudDotRenderer
+        from render import ImageFileRenderer, WordCloudDotRenderer
         dot_graph = WordCloudDotRenderer(client.get_graph_snapshot()).render()
-        png_file = PNGRenderer(dot_graph).render()
+        png_file = ImageFileRenderer(dot_graph).render()
 
         m = await self.message.channel.send(
             embed=messages.WORD_CLOUD_GRAPH,
