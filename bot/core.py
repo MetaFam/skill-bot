@@ -110,3 +110,8 @@ class Controller(discord.Client):
 
     def get_graph_snapshot(self):
         return self.repository.get_graph_snapshot()
+
+    async def send_skill_recap_message(self, channel):
+        await channel.send(
+            embed=messages.list_message(self.guild_id, self.channel_id, self.get_graph_snapshot().skills.values())
+        )

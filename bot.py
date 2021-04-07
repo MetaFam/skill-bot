@@ -17,6 +17,7 @@ repo = repository.SqliteRepository(DB_FILE)
 commands = [
     bot.HelpCommand,
     bot.InfoCommand,
+    bot.ListSkillsCommand,
     bot.AddSkillCommand,
     bot.DrawFullGraphCommand,
     bot.DrawWordCloudCommand,

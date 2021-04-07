@@ -1,3 +1,5 @@
+from collections.abc import Iterable
+
 import discord
 
 COLOR = discord.Colour.magenta()
@@ -96,4 +98,21 @@ def help_message(commands):
             for ex in c._example_arguments:
                 description += f'\n*Example*: `!sb {c._name} {ex}`'
         embed.add_field(name=command_string, value=description)
+    return embed
+
+def list_message(guild_id: int, channel_id: int, skills: Iterable):
+    embed = discord.Embed(
+        title = f'Skills and interests recap',
+        colour = COLOR,
+        description = f'''
+            {len(skills)} skills:
+        '''
+    )
+    for skill in skills:
+        name_link=f'⭐️ {skill.name}'
+        description=f'''
+            [show](https://discord.com/channels/{guild_id}/{channel_id}/{skill.id})
+            Linked to {1} people
+        '''
+        embed.add_field(name=name_link, value=description)
     return embed

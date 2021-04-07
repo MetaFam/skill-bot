@@ -64,6 +64,19 @@ class AddSkillCommand(AbstractCommand):
     async def execute(self, client):
         await client.create_skill(self.skill_name)
 
+class ListSkillsCommand(AbstractCommand):
+    """A summary message with all skills"""
+
+    _name = "list"
+    _description = "List all skills"
+    _example_arguments = None
+
+    def __init__(self, message, args):
+        super(ListSkillsCommand, self).__init__(message)
+
+    async def execute(self, client):
+        await client.send_skill_recap_message(self.message.channel)
+
 class DrawFullGraphCommand(AbstractCommand):
     """Creates an image of the whole graph"""
 
