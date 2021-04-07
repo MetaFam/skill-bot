@@ -39,7 +39,7 @@ class WordCloudDotRenderer(object):
         return dg
 
     @staticmethod
-    def calculate_font_size(graph: model.Graph, min_font_size: int = 8, max_font_size: int = 24):
+    def calculate_font_size(graph: model.Graph, min_font_size: int = 14, max_font_size: int = 36):
         font_range = max_font_size - min_font_size
         max_people = 0
         # Find the skill with the most people
@@ -49,9 +49,11 @@ class WordCloudDotRenderer(object):
         font_sizes_map = {}
         for skill in graph.skills.values():
             # Value between 0 and 1
-            normalized = (len(skill.people) * 100) / max_people
+            normalized = len(skill.people) / max_people
             # Font size between min and max relative to how many people
-            font_sizes_map[skill.id] = int(normalized * font_range) + min_font_size
+            font_size = int(normalized * font_range) + min_font_size
+            font_sizes_map[skill.id] = font_size
+            # print(f'{skill.name}: {len(skill.people)} (max: {max_people}) -> {normalized} -> {font_size}')
         return font_sizes_map
 
 class PNGRenderer(object):
