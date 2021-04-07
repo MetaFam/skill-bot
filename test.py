@@ -199,3 +199,20 @@ assert len(g.skills) == 3
 assert len(g.people_skills) == 3
 
 print_graph(g)
+
+#############################
+# Model rendering test
+#############################
+
+import os
+from render import *
+
+dot_full_graph = FullGraphDotRenderer(g).render()
+png_file = PNGRenderer(dot_full_graph).render(path_prefix="test-full.dot")
+assert png_file == "test-full.dot.png"
+assert os.path.exists(png_file)
+
+dot_word_cloud_graph = WordCloudDotRenderer(g).render()
+png_file = PNGRenderer(dot_word_cloud_graph).render(path_prefix="test-word-cloud.dot")
+assert png_file == "test-word-cloud.dot.png"
+assert os.path.exists(png_file)

@@ -61,5 +61,5 @@ class PNGRenderer(object):
         super(PNGRenderer, self).__init__()
         self.dot_graph = dot_graph
 
-    def render(self):
-        return self.dot_graph.render(format="png", filename='./graph.dot', view=False)
+    def render(self, path_prefix: str = './graph.dot'):
+        return self.dot_graph.render(format="png", filename=path_prefix, view=False)
