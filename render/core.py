@@ -48,8 +48,8 @@ class WordCloudDotRenderer(object):
         # Create map with skill id and its normalized prominence
         font_sizes_map = {}
         for skill in graph.skills.values():
-            # Value between 0 and 1
-            normalized = len(skill.people) / max_people
+            # Value between 0 and 1, non-linear
+            normalized = (len(skill.people) / max_people)**2
             # Font size between min and max relative to how many people
             font_size = int(normalized * font_range) + min_font_size
             font_sizes_map[skill.id] = font_size

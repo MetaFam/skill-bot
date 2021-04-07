@@ -203,6 +203,39 @@ print_graph(g)
 #############################
 # Model rendering test
 #############################
+p1 = model.Person(1, "Alice")
+p2 = model.Person(2, "Bob")
+p3 = model.Person(3, "Charles")
+p4 = model.Person(4, "Diana")
+
+s1 = model.Skill(11, "Cooking")
+s2 = model.Skill(22, "Gardening")
+s3 = model.Skill(33, "Fishing")
+s4 = model.Skill(44, "Hunting")
+s5 = model.Skill(55, "Woodworking")
+
+g = model.Graph()
+
+g.add_person(p1)
+g.add_person(p2)
+g.add_person(p3)
+g.add_person(p4)
+
+g.add_skill(s1)
+g.add_skill(s2)
+g.add_skill(s3)
+g.add_skill(s4)
+g.add_skill(s5)
+
+g.link_person_to_skill(1, 11)
+g.link_person_to_skill(1, 33)
+g.link_person_to_skill(1, 44)
+g.link_person_to_skill(2, 55)
+g.link_person_to_skill(2, 55)
+g.link_person_to_skill(3, 11)
+g.link_person_to_skill(3, 33)
+g.link_person_to_skill(4, 11)
+g.link_person_to_skill(4, 22)
 
 import os
 from render import *
