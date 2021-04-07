@@ -3,7 +3,8 @@ __pycache__
 *.pyc
 .venv
 .env
-*.png
+*.dot.png
+*.dot.jpg
 *.dot
 *.db
 *.sqlite
