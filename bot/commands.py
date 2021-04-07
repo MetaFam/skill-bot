@@ -83,3 +83,23 @@ class DrawFullGraphCommand(AbstractCommand):
             embed=messages.FULL_GRAPH,
             file=File(png_file)
         )
+
+class DrawWordCloudCommand(AbstractCommand):
+    """Creates an word cloud image for all interests"""
+
+    _name = "wordcloud"
+    _description = "Creates a word-cloud of interests"
+    _example_arguments = None
+
+    def __init__(self, message, args):
+        super(DrawWordCloudCommand, self).__init__(message)
+
+    async def execute(self, client):
+        from render import PNGRenderer, WordCloudDotRenderer
+        dot_graph = WordCloudDotRenderer(client.get_graph_snapshot()).render()
+        png_file = PNGRenderer(dot_graph).render()
+
+        m = await self.message.channel.send(
+            embed=messages.WORD_CLOUD_GRAPH,
+            file=File(png_file)
+        )

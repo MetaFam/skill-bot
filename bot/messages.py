@@ -38,6 +38,12 @@ FULL_GRAPH = discord.Embed(
     description = "It includes *all* skills, interests and people"
 )
 
+WORD_CLOUD_GRAPH = discord.Embed(
+    title = "☝️\nHere's your words cloud!",
+    colour = COLOR,
+    description = "More common interests are bigger in size"
+)
+
 def command_error_message(command, e):
     return discord.Embed(
         title = "🤦‍♂️\nOoops!",
