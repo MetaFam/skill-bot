@@ -13,7 +13,16 @@ To facilitate social bonding and skills exchange:
  * Find someone that has skill S, which you are looking for
  * Find what skills/interests you have in common with person P
  * Get a general feel of the interests within a community
- * ...
+
+### Examples
+
+Full graph, including all people, all skills/interests and their links:
+
+![Full graph](sample/full-graph.jpg)
+
+Word-cloud view of the above:
+
+![Word cloud](sample/word-cloud.jpg)
 
 ## Project structure
 
