@@ -10,11 +10,23 @@ class FullGraphDotRenderer(object):
         self.graph = graph
 
     def render(self):
-        dg = Digraph(comment='Skill Graph')
+        graph_attributes = [
+            ('overlap', 'false'),
+            ('layout', 'sfdp'),
+            ('ranksep', '3'),
+            ('bgcolor', 'black'),
+            ('K', '0.6'),
+            ('repulsiveforce', '1.5'),
+        ]
+        edge_attributes = [
+            ('color', 'white')
+        ]
+        font_sizes = WordCloudDotRenderer.calculate_font_size(self.graph)
+        dg = Digraph(comment='Skill Graph', graph_attr=graph_attributes, edge_attr=edge_attributes)
         for p in self.graph.people.values():
             dg.node(f'P{p.id}', p.name, shape="ellipse", color='lightblue', style='filled')
         for s in self.graph.skills.values():
-            dg.node(f'S{s.id}', s.name, shape="rectangle", color='lightpink', style='filled')
+            dg.node(f'S{s.id}', s.name, shape="rectangle", color='lightpink', style='filled', fontsize=str(font_sizes[s.id]))
         for p, s in self.graph.people_skills:
             dg.edge(f'P{p.id}', f'S{s.id}')
         return dg
