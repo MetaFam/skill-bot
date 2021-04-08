@@ -17,6 +17,7 @@ class FullGraphDotRenderer(object):
             ('bgcolor', 'black'),
             ('K', '0.6'),
             ('repulsiveforce', '1.5'),
+            ('fontname', 'Arial'),
         ]
         edge_attributes = [
             ('color', 'white')
@@ -43,6 +44,7 @@ class WordCloudDotRenderer(object):
             ('overlap', 'false'),
             ('layout', 'circo'),
             ('model', 'subset'),
+            ('fontname', 'Arial'),
         ]
         dg = Graph(comment='Skills Word Cloud', graph_attr=graph_attributes)
         font_sizes = WordCloudDotRenderer.calculate_font_size(self.graph)
