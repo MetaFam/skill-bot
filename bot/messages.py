@@ -112,7 +112,7 @@ def list_message(guild_id: int, channel_id: int, skills: Iterable):
         name_link=f'⭐️ {skill.name}'
         description=f'''
             [show](https://discord.com/channels/{guild_id}/{channel_id}/{skill.id})
-            Linked to {1} people
+            Linked to {len(skill.people)} people
         '''
         embed.add_field(name=name_link, value=description)
     return embed
