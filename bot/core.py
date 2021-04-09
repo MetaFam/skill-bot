@@ -112,7 +112,7 @@ class Controller(discord.Client):
     def get_graph_snapshot(self):
         return self.repository.get_graph_snapshot()
 
-    def get_graph_snapshot(self, people_ids: Iterable[int]):
+    def get_people_subgraph_snapshot(self, people_ids: Iterable[int]):
         return self.repository.get_people_subgraph_snapshot(people_ids)
 
     async def send_skill_recap_message(self, channel):

@@ -136,7 +136,7 @@ class DrawPeopleSubgraphCommand(AbstractCommand):
 
     async def execute(self, client):
         from render import ImageFileRenderer, SubGraphDotRenderer
-        dot_graph = SubGraphDotRenderer(client.get_graph_snapshot(self.people_ids)).render()
+        dot_graph = SubGraphDotRenderer(client.get_people_subgraph_snapshot(self.people_ids)).render()
         png_file = ImageFileRenderer(dot_graph).render()
 
         m = await self.message.channel.send(
