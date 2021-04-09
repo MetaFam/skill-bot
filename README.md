@@ -73,6 +73,8 @@ The `dot` program installed (on Linux and macOS, this is part of the `graphviz` 
 
 You can learn more about this format on [Wikipedia](https://en.wikipedia.org/wiki/Graphviz) or on the [official website](https://www.graphviz.org/).
 
+Additional fonts may be necessary to properly display emojis on Linux. Consider installing the `fonts-noto` package.
+
 ### Permissions
 
 To work properly, the bot needs the following permission in the target channel:
