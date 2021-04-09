@@ -96,6 +96,9 @@ assert repo.get_people_skills_count() == 0
 assert repo.get_skills()[:] == []
 assert repo.get_people()[:] == []
 assert repo.get_people_skills()[:] == []
+assert repo.find_people_by_id([1, 2, 3, 4]) == []
+assert repo.find_skills_by_id([1, 2, 3, 4]) == []
+assert repo.find_people_skills_of_people([1, 2, 3, 4]) == []
 
 # Add 3 skills
 repo.add_skill(111, "Hunting")
@@ -112,6 +115,7 @@ assert repo.find_skill("Hunting") == 111
 assert repo.find_skill("Fishing") == 222
 assert repo.find_skill("Farming") == 333
 assert repo.find_skill("Dancing") == None
+assert len(repo.find_skills_by_id([111, 222, 333, 555])) == 3
 
 skills = repo.get_skills()
 assert len(skills) == 3
@@ -150,6 +154,7 @@ people = repo.get_people()
 assert len(people) == 2
 assert [p for p in people if p.id == 1][0].name == "Joe"
 assert [p for p in people if p.id == 2][0].name == "Sammy"
+assert len(repo.find_people_by_id([1, 2, 3, 4])) == 2
 
 # Test overwrite person name (no effect, and no duplicates)
 repo.add_person(1, "Joe Reloaded")
@@ -173,6 +178,9 @@ assert (1, 111) in people_skills
 assert (2, 111) in people_skills
 assert (1, 222) in people_skills
 assert (2, 333) in people_skills
+assert len(repo.find_people_skills_of_people([1, 2])) == 4
+assert len(repo.find_people_skills_of_people([1, 999])) == 2
+assert len(repo.find_people_skills_of_people([2])) == 2
 
 # Remove one person skill
 repo.remove_person_skill(1, 222)
@@ -185,6 +193,9 @@ assert (1, 111) in people_skills
 assert (2, 111) in people_skills
 assert not (1, 222) in people_skills
 assert (2, 333) in people_skills
+assert len(repo.find_people_skills_of_people([1, 2])) == 3
+assert len(repo.find_people_skills_of_people([1, 999])) == 1
+assert len(repo.find_people_skills_of_people([2])) == 2
 
 # Remove non-existent person skill
 repo.remove_person_skill(1, 222)
@@ -214,11 +225,21 @@ assert (2, 333) in people_skills
 
 g = repo.get_graph_snapshot()
 
+print_graph(g)
+
 assert len(g.people) == 2
 assert len(g.skills) == 3
 assert len(g.people_skills) == 3
 
+# Subgraph filtered by people
+
+g = repo.get_people_subgraph_snapshot([2, 9999])
+
 print_graph(g)
+
+assert len(g.people) == 1
+assert len(g.skills) == 2
+assert len(g.people_skills) == 2
 
 #############################
 # Model rendering test
