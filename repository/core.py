@@ -1,5 +1,8 @@
+from collections.abc import Iterable
+from typing import Tuple
 import sqlite3
 from os.path import exists as file_exists
+import model
 
 class SqliteRepository(object):
     """
@@ -85,8 +88,13 @@ class SqliteRepository(object):
     def skill_exists(self, skill_id: int):
         return self.db.execute(SqliteRepository.__SKILL_EXISTS, [skill_id]).fetchone()[0] == 1
 
-    def get_skills(self):
-        return self.db.execute(SqliteRepository.__SELECT_ALL_SKILLS).fetchall()
+    def get_skills(self) -> Iterable[model.Skill]:
+        return [
+            # Construct a new Skill
+            model.Skill(sid, sname)
+            # For each row returned
+            for sid, sname in self.db.execute(SqliteRepository.__SELECT_ALL_SKILLS).fetchall()
+        ]
 
     def find_skill(self, skill_name):
         row = self.db.execute('SELECT skill_id FROM skills WHERE skill_name = ?', [skill_name]).fetchone()
@@ -95,24 +103,25 @@ class SqliteRepository(object):
         else:
             return None
 
+    def get_people(self) -> Iterable[model.Person]:
+        return [
+            # Construct a new Person
+            model.Person(pid, pname)
+            # For each row returned
+            for pid, pname in self.db.execute(SqliteRepository.__SELECT_ALL_PEOPLE).fetchall()
+        ]
 
-    def get_people(self):
-        return self.db.execute(SqliteRepository.__SELECT_ALL_PEOPLE).fetchall()
-
-    def get_people_skills(self):
+    def get_people_skills(self) -> Iterable[Tuple[int, int]]:
         return self.db.execute(SqliteRepository.__SELECT_ALL_PEOPLE_SKILLS).fetchall()
 
-    def get_graph_snapshot(self):
-        import model
+    def get_graph_snapshot(self) -> model.Graph:
         g = model.Graph()
+        # Capture edges first, to avoid dangling references
         people_skills = self.get_people_skills()
-        people = self.get_people()
-        skills = self.get_skills()
-
-        for p_row in people:
-            g.add_person(model.Person(p_row[0], p_row[1]))
-        for s_row in skills:
-            g.add_skill(model.Skill(s_row[0], s_row[1]))
-        for ps_row in people_skills:
-            g.link_person_to_skill(ps_row[0], ps_row[1])
+        for p in self.get_people():
+            g.add_person(p)
+        for s in self.get_skills():
+            g.add_skill(s)
+        for pid, sid in people_skills:
+            g.link_person_to_skill(pid, sid)
         return g

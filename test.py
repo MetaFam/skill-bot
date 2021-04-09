@@ -111,18 +111,29 @@ assert repo.find_skill("Dancing") == None
 
 skills = repo.get_skills()
 assert len(skills) == 3
-assert (111, "Hunting") in skills
-assert (222, "Fishing") in skills
-assert (333, "Farming") in skills
+for s in skills:
+    if s.id == 111:
+        assert s.name == "Hunting"
+    elif s.id == 222:
+        assert s.name == "Fishing"
+    elif s.id == 333:
+        assert s.name == "Farming"
+    else:
+        assert False
 
 # Test overwrite skill name (no effect, and no duplicates)
 repo.add_skill(222, "Phishing")
 skills = repo.get_skills()
 assert len(skills) == 3
-assert (111, "Hunting") in skills
-assert (222, "Fishing") in skills
-assert (333, "Farming") in skills
-
+for s in skills:
+    if s.id == 111:
+        assert s.name == "Hunting"
+    elif s.id == 222:
+        assert s.name == "Fishing"
+    elif s.id == 333:
+        assert s.name == "Farming"
+    else:
+        assert False
 
 # Add 2 people
 repo.add_person(1, "Joe")
@@ -131,15 +142,15 @@ repo.add_person(2, "Sammy")
 # Test people
 people = repo.get_people()
 assert len(people) == 2
-assert (1, "Joe") in people
-assert (2, "Sammy") in people
+assert [p for p in people if p.id == 1][0].name == "Joe"
+assert [p for p in people if p.id == 2][0].name == "Sammy"
 
 # Test overwrite person name (no effect, and no duplicates)
 repo.add_person(1, "Joe Reloaded")
 people = repo.get_people()
 assert len(people) == 2
-assert (1, "Joe") in people
-assert (2, "Sammy") in people
+assert [p for p in people if p.id == 1][0].name == "Joe"
+assert [p for p in people if p.id == 2][0].name == "Sammy"
 
 # Add 4 people-skills relationships
 repo.add_person_skill(1, 111)
