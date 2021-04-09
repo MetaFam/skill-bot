@@ -90,6 +90,9 @@ tmp_repo = repository.SqliteRepository(TEST_DB_FILE)
 repo = repository.SqliteRepository(TEST_DB_FILE)
 
 # Test all tables are empty
+assert repo.get_skills_count() == 0
+assert repo.get_people_count() == 0
+assert repo.get_people_skills_count() == 0
 assert repo.get_skills()[:] == []
 assert repo.get_people()[:] == []
 assert repo.get_people_skills()[:] == []
@@ -100,6 +103,7 @@ repo.add_skill(222, "Fishing")
 repo.add_skill(333, "Farming")
 
 # Test skills
+assert repo.get_skills_count() == 3
 assert repo.skill_exists(111)
 assert repo.skill_exists(222)
 assert repo.skill_exists(333)
@@ -123,6 +127,7 @@ for s in skills:
 
 # Test overwrite skill name (no effect, and no duplicates)
 repo.add_skill(222, "Phishing")
+assert repo.get_skills_count() == 3
 skills = repo.get_skills()
 assert len(skills) == 3
 for s in skills:
@@ -140,6 +145,7 @@ repo.add_person(1, "Joe")
 repo.add_person(2, "Sammy")
 
 # Test people
+assert repo.get_people_count() == 2
 people = repo.get_people()
 assert len(people) == 2
 assert [p for p in people if p.id == 1][0].name == "Joe"
@@ -147,6 +153,7 @@ assert [p for p in people if p.id == 2][0].name == "Sammy"
 
 # Test overwrite person name (no effect, and no duplicates)
 repo.add_person(1, "Joe Reloaded")
+assert repo.get_people_count() == 2
 people = repo.get_people()
 assert len(people) == 2
 assert [p for p in people if p.id == 1][0].name == "Joe"
@@ -159,6 +166,7 @@ repo.add_person_skill(1, 222)
 repo.add_person_skill(2, 333)
 
 # Test people skills
+assert repo.get_people_skills_count() == 4
 people_skills = repo.get_people_skills()
 assert len(people_skills) == 4
 assert (1, 111) in people_skills
@@ -170,6 +178,7 @@ assert (2, 333) in people_skills
 repo.remove_person_skill(1, 222)
 
 # Test people skills
+assert repo.get_people_skills_count() == 3
 people_skills = repo.get_people_skills()
 assert len(people_skills) == 3
 assert (1, 111) in people_skills

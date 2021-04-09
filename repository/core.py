@@ -44,6 +44,9 @@ class SqliteRepository(object):
     __SELECT_ALL_SKILLS = "SELECT skill_id, skill_name FROM skills;"
     __SELECT_ALL_PEOPLE = "SELECT person_id, person_name FROM people;"
     __SELECT_ALL_PEOPLE_SKILLS = "SELECT person_id, skill_id FROM people_skills;"
+    __COUNT_SKILLS = "SELECT COUNT(*) FROM skills;"
+    __COUNT_PEOPLE = "SELECT COUNT(*) FROM people;"
+    __COUNT_PEOPLE_SKILLS = "SELECT COUNT(*) FROM people_skills;"
 
     def __init__(self, database_file):
         super(SqliteRepository, self).__init__()
@@ -60,9 +63,9 @@ class SqliteRepository(object):
     def print_stats(self):
         print("--")
         print("Graph stats: ")
-        print("  🙂 People:      {}".format(len(self.get_people())))
-        print("  🔨 Skills:      {}".format(len(self.get_skills())))
-        print("  ↔️  Connections: {}".format(len(self.get_people_skills())))
+        print("  🙂 People:      {}".format(self.get_people_count()))
+        print("  🔨 Skills:      {}".format(self.get_skills_count()))
+        print("  ↔️  Connections: {}".format(self.get_people_skills_count()))
         print("--")
 
     def add_skill(self, skill_id: int, skill_name: str):
@@ -87,6 +90,15 @@ class SqliteRepository(object):
 
     def skill_exists(self, skill_id: int):
         return self.db.execute(SqliteRepository.__SKILL_EXISTS, [skill_id]).fetchone()[0] == 1
+
+    def get_people_count(self) -> int:
+        return int(self.db.execute(SqliteRepository.__COUNT_PEOPLE).fetchone()[0])
+
+    def get_skills_count(self) -> int:
+        return int(self.db.execute(SqliteRepository.__COUNT_SKILLS).fetchone()[0])
+
+    def get_people_skills_count(self) -> int:
+        return int(self.db.execute(SqliteRepository.__COUNT_PEOPLE_SKILLS).fetchone()[0])
 
     def get_skills(self) -> Iterable[model.Skill]:
         return [
