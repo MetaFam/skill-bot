@@ -116,3 +116,30 @@ class DrawWordCloudCommand(AbstractCommand):
             embed=messages.WORD_CLOUD_GRAPH,
             file=File(png_file)
         )
+
+class DrawPeopleSubgraphCommand(AbstractCommand):
+    """Creates an image of the graph with a subset of people explicitly requested"""
+
+    _name = "subgraph"
+    _description = "Draw graph with just a subset of people"
+    _example_arguments = ["@Adam @Bob @Charlie"]
+
+    def __init__(self, message, args):
+        super(DrawPeopleSubgraphCommand, self).__init__(message)
+        if not args:
+            raise Exception("Missing people names :shrug:")
+        mentions = re.findall('<@!(\d+)>', args)
+        print(f'🐛 mentions: {mentions}')
+        if not mentions:
+            raise Exception("Missing people names :shrug:")
+        self.people_ids = [int(m) for m in mentions]
+
+    async def execute(self, client):
+        from render import ImageFileRenderer, SubGraphDotRenderer
+        dot_graph = SubGraphDotRenderer(client.get_graph_snapshot(self.people_ids)).render()
+        png_file = ImageFileRenderer(dot_graph).render()
+
+        m = await self.message.channel.send(
+            embed=messages.subgraph_message(self.people_ids),
+            file=File(png_file)
+        )

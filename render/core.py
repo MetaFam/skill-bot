@@ -32,6 +32,35 @@ class FullGraphDotRenderer(object):
             dg.edge(f'P{p.id}', f'S{s.id}')
         return dg
 
+class SubGraphDotRenderer(object):
+    """Renders a partial graph into a graphviz.Digraph object"""
+
+    def __init__(self, graph: model.Graph):
+        super(SubGraphDotRenderer, self).__init__()
+        self.graph = graph
+
+    def render(self):
+        graph_attributes = [
+            ('overlap', 'false'),
+            ('layout', 'sfdp'),
+            ('ranksep', '3'),
+            ('bgcolor', 'lightgrey'),
+            ('K', '0.6'),
+            ('repulsiveforce', '1.5'),
+            ('fontname', 'Arial'),
+        ]
+        edge_attributes = [
+            ('color', 'black')
+        ]
+        dg = Graph(comment='Skill Graph', graph_attr=graph_attributes, edge_attr=edge_attributes)
+        for p in self.graph.people.values():
+            dg.node(f'P{p.id}', p.name, shape="ellipse", color='lightblue', style='filled')
+        for s in self.graph.skills.values():
+            dg.node(f'S{s.id}', s.name, shape="rectangle", color='lightpink', style='filled')
+        for p, s in self.graph.people_skills:
+            dg.edge(f'P{p.id}', f'S{s.id}')
+        return dg
+
 class WordCloudDotRenderer(object):
     """Renders a wordcloud into a graphviz.Graph object"""
 

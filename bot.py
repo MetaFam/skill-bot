@@ -21,6 +21,7 @@ commands = [
     bot.AddSkillCommand,
     bot.DrawFullGraphCommand,
     bot.DrawWordCloudCommand,
+    bot.DrawPeopleSubgraphCommand,
 ]
 
 bot.Controller(GUILD, CHANNEL, repo, commands).run(TOKEN)
