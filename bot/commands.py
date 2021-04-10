@@ -143,3 +143,31 @@ class DrawPeopleSubgraphCommand(AbstractCommand):
             embed=messages.subgraph_message(self.people_ids),
             file=File(png_file)
         )
+
+class DrawSkillsSubgraphCommand(AbstractCommand):
+    """Creates an image of the graph with a subset of skills explicitly requested"""
+
+    _name = "skills"
+    _description = "Draw graph with just a subset of skills"
+    _example_arguments = ["hunt farm", "ui ux design"]
+
+    def __init__(self, message, args):
+        super(DrawSkillsSubgraphCommand, self).__init__(message)
+        if not args:
+            raise Exception("Missing skill names :shrug:")
+        terms = [re.sub(r'\W+', '_', term) for term in args.split()]
+        print(f'🐛 terms: {terms}')
+        if not terms:
+            raise Exception("Missing skill names :shrug:")
+        self.terms = terms
+
+    async def execute(self, client):
+        skill_ids = client.search_skills(self.terms)
+        from render import ImageFileRenderer, SubGraphDotRenderer
+        dot_graph = SubGraphDotRenderer(client.get_skills_subgraph_snapshot(skill_ids)).render()
+        png_file = ImageFileRenderer(dot_graph).render()
+
+        m = await self.message.channel.send(
+            embed=messages.skills_subgraph_message(self.terms),
+            file=File(png_file)
+        )

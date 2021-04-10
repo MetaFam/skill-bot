@@ -127,3 +127,14 @@ def subgraph_message(people_ids: Iterable[int]):
         '''
     )
     return embed
+
+def skills_subgraph_message(skills_terms: Iterable[str]):
+    terms_string = ", ".join(f'"{term}"' for term in skills_terms)
+    embed = discord.Embed(
+        title = "☝️\nHere's your map!",
+        colour = COLOR,
+        description = f'''
+            It includes only skills matching: {terms_string}
+        '''
+    )
+    return embed

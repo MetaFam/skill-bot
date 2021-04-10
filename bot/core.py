@@ -115,6 +115,16 @@ class Controller(discord.Client):
     def get_people_subgraph_snapshot(self, people_ids: Iterable[int]):
         return self.repository.get_people_subgraph_snapshot(people_ids)
 
+    def get_skills_subgraph_snapshot(self, skill_ids: Iterable[int]):
+        return self.repository.get_skills_subgraph_snapshot(skill_ids)
+
+    def search_skills(self, skill_terms: Iterable[str]) -> Iterable[int]:
+        skill_ids = set()
+        for skill_term in skill_terms:
+            for skill in self.repository.find_skills_by_name(skill_term):
+                skill_ids.add(skill.id)
+        return skill_ids
+
     async def send_skill_recap_message(self, channel):
         await channel.send(
             embed=messages.list_message(self.guild_id, self.channel_id, self.get_graph_snapshot().skills.values())
