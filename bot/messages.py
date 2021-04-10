@@ -117,7 +117,7 @@ def list_message(guild_id: int, channel_id: int, skills: Iterable):
         embed.add_field(name=name_link, value=description)
     return embed
 
-def subgraph_message(people_ids: Iterable[int]):
+def people_subgraph_message(people_ids: Iterable[int]):
     mentions = ", ".join(f'<@!{pid}>' for pid in people_ids)
     embed = discord.Embed(
         title = "☝️\nHere's your map!",

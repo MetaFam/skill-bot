@@ -120,7 +120,7 @@ class DrawWordCloudCommand(AbstractCommand):
 class DrawPeopleSubgraphCommand(AbstractCommand):
     """Creates an image of the graph with a subset of people explicitly requested"""
 
-    _name = "subgraph"
+    _name = "people"
     _description = "Draw graph with just a subset of people"
     _example_arguments = ["@Adam @Bob @Charlie"]
 
@@ -140,7 +140,7 @@ class DrawPeopleSubgraphCommand(AbstractCommand):
         png_file = ImageFileRenderer(dot_graph).render()
 
         m = await self.message.channel.send(
-            embed=messages.subgraph_message(self.people_ids),
+            embed=messages.people_subgraph_message(self.people_ids),
             file=File(png_file)
         )
 
