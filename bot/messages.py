@@ -31,6 +31,8 @@ INFO = discord.Embed(
 
         Suggestions? Bugs? Wanna help?
         Ping @mprime on Metagame.
+
+        Source: <https://github.com/MetaFam/skill-bot>
     '''
 )
 
