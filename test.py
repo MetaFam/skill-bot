@@ -243,14 +243,22 @@ assert len(g.skills) == 3
 assert len(g.people_skills) == 3
 
 # Subgraph filtered by people
+people_subgraph = repo.get_people_subgraph_snapshot([2, 9999])
+print_graph(people_subgraph)
+assert len(people_subgraph.people) == 1
+assert len(people_subgraph.skills) == 2
+assert len(people_subgraph.people_skills) == 2
 
-g = repo.get_people_subgraph_snapshot([2, 9999])
-
-print_graph(g)
-
-assert len(g.people) == 1
-assert len(g.skills) == 2
-assert len(g.people_skills) == 2
+# Subgraph filtered by skills
+skill_ids = set()
+for skill_name in ['fish', 'farm']:
+    for skill in repo.find_skills_by_name(skill_name):
+        skill_ids.add(skill.id)
+skills_subgraph = repo.get_skills_subgraph_snapshot(skill_ids)
+print_graph(skills_subgraph)
+assert len(skills_subgraph.people) == 1
+assert len(skills_subgraph.skills) == 2
+assert len(skills_subgraph.people_skills) == 1
 
 #############################
 # Model rendering test
@@ -299,4 +307,14 @@ assert os.path.exists(png_file)
 dot_word_cloud_graph = WordCloudDotRenderer(g).render()
 png_file = ImageFileRenderer(dot_word_cloud_graph).render(path_prefix="test-word-cloud.dot")
 assert png_file == "test-word-cloud.dot.jpg"
+assert os.path.exists(png_file)
+
+dot_graph_sub_people = SubGraphDotRenderer(people_subgraph).render()
+png_file = ImageFileRenderer(dot_graph_sub_people).render(path_prefix="test-sub-people.dot")
+assert png_file == "test-sub-people.dot.jpg"
+assert os.path.exists(png_file)
+
+dot_graph_sub_skills = SubGraphDotRenderer(skills_subgraph).render()
+png_file = ImageFileRenderer(dot_graph_sub_skills).render(path_prefix="test-sub-skills.dot")
+assert png_file == "test-sub-skills.dot.jpg"
 assert os.path.exists(png_file)
