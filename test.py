@@ -99,6 +99,8 @@ assert repo.get_people_skills()[:] == []
 assert repo.find_people_by_id([1, 2, 3, 4]) == []
 assert repo.find_skills_by_id([1, 2, 3, 4]) == []
 assert repo.find_people_skills_of_people([1, 2, 3, 4]) == []
+assert repo.find_people_skills_of_skills([1, 2, 3, 4]) == []
+assert repo.find_skills_by_name("") == []
 
 # Add 3 skills
 repo.add_skill(111, "Hunting")
@@ -116,6 +118,9 @@ assert repo.find_skill("Fishing") == 222
 assert repo.find_skill("Farming") == 333
 assert repo.find_skill("Dancing") == None
 assert len(repo.find_skills_by_id([111, 222, 333, 555])) == 3
+assert len(repo.find_skills_by_name("")) == 3
+assert len(repo.find_skills_by_name("ing")) == 3
+assert len(repo.find_skills_by_name("FISH")) == 1
 
 skills = repo.get_skills()
 assert len(skills) == 3
@@ -181,6 +186,9 @@ assert (2, 333) in people_skills
 assert len(repo.find_people_skills_of_people([1, 2])) == 4
 assert len(repo.find_people_skills_of_people([1, 999])) == 2
 assert len(repo.find_people_skills_of_people([2])) == 2
+assert len(repo.find_people_skills_of_skills([111])) == 2
+assert len(repo.find_people_skills_of_skills([111, 999])) == 2
+assert len(repo.find_people_skills_of_skills([111, 222, 333])) == 4
 
 # Remove one person skill
 repo.remove_person_skill(1, 222)
@@ -196,6 +204,9 @@ assert (2, 333) in people_skills
 assert len(repo.find_people_skills_of_people([1, 2])) == 3
 assert len(repo.find_people_skills_of_people([1, 999])) == 1
 assert len(repo.find_people_skills_of_people([2])) == 2
+assert len(repo.find_people_skills_of_skills([111])) == 2
+assert len(repo.find_people_skills_of_skills([111, 999])) == 2
+assert len(repo.find_people_skills_of_skills([111, 222, 333])) == 3
 
 # Remove non-existent person skill
 repo.remove_person_skill(1, 222)

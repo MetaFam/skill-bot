@@ -146,9 +146,23 @@ class SqliteRepository(object):
             for sid, sname in self.db.execute(query).fetchall()
         ]
 
+    def find_skills_by_name(self, skill_name: str) -> Iterable[model.Skill]:
+        wildcard_name = f'%{skill_name}%'
+        return [
+            # Construct a new Skill
+            model.Skill(sid, sname)
+            # For each row returned
+            for sid, sname in self.db.execute('SELECT skill_id, skill_name FROM skills WHERE skill_name LIKE ?', [wildcard_name]).fetchall()
+        ]
+
     def find_people_skills_of_people(self, people_ids: Iterable[int]) -> Iterable[Tuple[int, int]]:
         ids = ','.join([str(id) for id in people_ids])
         query = f"SELECT person_id, skill_id FROM people_skills WHERE person_id IN ({ids});"
+        return self.db.execute(query).fetchall()
+
+    def find_people_skills_of_skills(self, skills_ids: Iterable[int]) -> Iterable[Tuple[int, int]]:
+        ids = ','.join([str(id) for id in skills_ids])
+        query = f"SELECT person_id, skill_id FROM people_skills WHERE skill_id IN ({ids});"
         return self.db.execute(query).fetchall()
 
     def get_graph_snapshot(self) -> model.Graph:
@@ -164,11 +178,23 @@ class SqliteRepository(object):
         return g
 
     def get_people_subgraph_snapshot(self, people_ids: Iterable[int]) -> model.Graph:
-
         g = model.Graph()
         # Capture edges first, to avoid dangling references
         people_skills = self.find_people_skills_of_people(people_ids)
         skill_ids = set([sid for pid, sid in people_skills])
+        for p in self.find_people_by_id(people_ids):
+            g.add_person(p)
+        for s in self.find_skills_by_id(skill_ids):
+            g.add_skill(s)
+        for pid, sid in people_skills:
+            g.link_person_to_skill(pid, sid)
+        return g
+
+    def get_skills_subgraph_snapshot(self, skill_ids: Iterable[int]) -> model.Graph:
+        g = model.Graph()
+        # Capture edges first, to avoid dangling references
+        people_skills = self.find_people_skills_of_skills(skill_ids)
+        people_ids = set([pid for pid, sid in people_skills])
         for p in self.find_people_by_id(people_ids):
             g.add_person(p)
         for s in self.find_skills_by_id(skill_ids):
