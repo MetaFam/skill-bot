@@ -129,3 +129,11 @@ class Controller(discord.Client):
         await channel.send(
             embed=messages.list_message(self.guild_id, self.channel_id, self.get_graph_snapshot().skills.values())
         )
+
+    async def send_stats_message(self, channel):
+        pcount = self.repository.get_people_count()
+        scount = self.repository.get_skills_count()
+        pscount = self.repository.get_people_skills_count()
+        await channel.send(
+            embed=messages.stats_message(pcount, scount, pscount)
+        )

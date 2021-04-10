@@ -138,3 +138,15 @@ def skills_subgraph_message(skills_terms: Iterable[str]):
         '''
     )
     return embed
+
+def stats_message(people_count: int, skills_count: int, people_skills_count: int):
+    embed = discord.Embed(
+        title = "📊\nStatistics",
+        colour = COLOR,
+        description = f'''
+            👤 People: {people_count}
+            ⭐️ Skills & Interests: {skills_count}
+            ↔️ Connections: {people_skills_count}
+        '''
+    )
+    return embed

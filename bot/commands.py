@@ -77,6 +77,19 @@ class ListSkillsCommand(AbstractCommand):
     async def execute(self, client):
         await client.send_skill_recap_message(self.message.channel)
 
+class StatsCommand(AbstractCommand):
+    """A summary message with entities count"""
+
+    _name = "stats"
+    _description = "Display statistics"
+    _example_arguments = None
+
+    def __init__(self, message, args):
+        super(StatsCommand, self).__init__(message)
+
+    async def execute(self, client):
+        await client.send_stats_message(self.message.channel)
+
 class DrawFullGraphCommand(AbstractCommand):
     """Creates an image of the whole graph"""
 

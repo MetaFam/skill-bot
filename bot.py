@@ -18,6 +18,7 @@ commands = [
     bot.HelpCommand,
     bot.InfoCommand,
     bot.ListSkillsCommand,
+    bot.StatsCommand,
     bot.AddSkillCommand,
     bot.DrawFullGraphCommand,
     bot.DrawWordCloudCommand,
