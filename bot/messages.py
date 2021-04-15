@@ -102,22 +102,28 @@ def help_message(commands):
         embed.add_field(name=command_string, value=description)
     return embed
 
-def list_message(guild_id: int, channel_id: int, skills: Iterable):
+def list_message(guild_id: int, channel_id: int, skills: Iterable, num_pages: int, current_page: int):
     embed = discord.Embed(
-        title = f'Skills and interests recap',
+        title = f'Skills and interests (part {current_page} / {num_pages})',
         colour = COLOR,
         description = f'''
-            {len(skills)} skills:
+            Click on the **show** link to jump to the skill
         '''
     )
     for skill in skills:
         name_link=f'⭐️ {skill.name}'
         description=f'''
+            {len(skill.people)} people
             [show](https://discord.com/channels/{guild_id}/{channel_id}/{skill.id})
-            Linked to {len(skill.people)} people
         '''
         embed.add_field(name=name_link, value=description)
     return embed
+
+def paginated_list_messages(guild_id: int, channel_id: int, skills: Iterable, page_size: int = 25):
+    paginated_skills = [skills[i:i + page_size] for i in range(0, len(skills), page_size)]
+    num_pages = len(paginated_skills)
+    return [list_message(guild_id, channel_id, paginated_skills[index], num_pages, index+1) for index in range(len(paginated_skills))]
+
 
 def people_subgraph_message(people_ids: Iterable[int]):
     mentions = ", ".join(f'<@!{pid}>' for pid in people_ids)

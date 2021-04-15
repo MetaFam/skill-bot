@@ -126,9 +126,9 @@ class Controller(discord.Client):
         return skill_ids
 
     async def send_skill_recap_message(self, channel):
-        await channel.send(
-            embed=messages.list_message(self.guild_id, self.channel_id, self.get_graph_snapshot().skills.values())
-        )
+        skills = list(self.get_graph_snapshot().skills.values())
+        for embed_message in messages.paginated_list_messages(self.guild_id, self.channel_id, skills):
+            await channel.send(embed=embed_message)
 
     async def send_stats_message(self, channel):
         pcount = self.repository.get_people_count()
