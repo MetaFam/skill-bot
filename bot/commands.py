@@ -141,7 +141,7 @@ class DrawPeopleSubgraphCommand(AbstractCommand):
         super(DrawPeopleSubgraphCommand, self).__init__(message)
         if not args:
             raise Exception("Missing people names :shrug:")
-        mentions = re.findall('<@!(\d+)>', args)
+        mentions = re.findall('<@(?:!)?(\d+)>', args)
         print(f'🐛 mentions: {mentions}')
         if not mentions:
             raise Exception("Missing people names :shrug:")
