@@ -70,7 +70,7 @@ class Controller(discord.Client):
         return (
             payload.guild_id == self.guild_id and
             payload.channel_id == self.channel_id and
-            payload.emoji.name == k.REACTION and
+            payload.emoji.name in k.ACCEPTED_REACTIONS and
             self.repository.skill_exists(payload.message_id)
         )
 

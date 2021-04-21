@@ -6,6 +6,7 @@ class Strings:
     DESCRIPTION = 'SkillBot helps you discover **skills** among people in your community 💕'
     SKILL_ICON = '⭐️'
     REACTION="✅"
+    ACCEPTED_REACTIONS = [REACTION]
     PEOPLE = 'people'
     PEOPLE_UPPERCASE = 'People'
     ENTITIES_LONG = 'skills'
@@ -35,6 +36,7 @@ def apply_metagame_customization():
     Strings.DESCRIPTION = 'SkillBot helps you discover common **interests**, **skills**, **hobbies** among players 🐙'
     Strings.SKILL_ICON = '🐙'
     Strings.REACTION="✅"
+    Strings.ACCEPTED_REACTIONS = ["✅"]
     Strings.PEOPLE = 'players'
     Strings.PEOPLE_UPPERCASE = 'Players'
     Strings.ENTITIES_LONG = 'skills, interests, hobbies'
@@ -64,6 +66,7 @@ def apply_raidguild_customization():
     Strings.DESCRIPTION = 'SkillBot (*RaidGuild edition*) helps you find members based on their skills and abilities'
     Strings.SKILL_ICON = '⚔️'
     Strings.REACTION="🙋"
+    Strings.ACCEPTED_REACTIONS = ["✅", "🙋"]
     Strings.PEOPLE = 'raiders'
     Strings.PEOPLE_UPPERCASE = 'Raiders'
     Strings.ENTITIES_LONG = 'skills and abilities'
