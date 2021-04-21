@@ -67,11 +67,14 @@ The URL will look like this:
 
 ### Dependencies
 
-**Python 3** and it's dependencies listed in `requirements.txt`.
+**Python 3.9** and it's dependencies listed in `requirements.txt`.
 
-The `dot` program installed (on Linux and macOS, this is part of the `graphviz` package).
+Using a Python virtual environment is recommended.
+Alternatively, using `nix`:
 
-You can learn more about this format on [Wikipedia](https://en.wikipedia.org/wiki/Graphviz) or on the [official website](https://www.graphviz.org/).
+ > nix-shell -p 'python39.withPackages(ps: with ps; [ graphviz python-dotenv discordpy ])'
+
+The `dot` program must be installed (on Linux and macOS, this is part of the `graphviz` package). You can learn more about this format on [Wikipedia](https://en.wikipedia.org/wiki/Graphviz) or on the [official website](https://www.graphviz.org/).
 
 Additional fonts may be necessary to properly display emojis on Linux. Consider installing the `fonts-noto` package.
 

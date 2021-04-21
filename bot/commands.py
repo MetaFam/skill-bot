@@ -1,6 +1,7 @@
 import re
 from discord import File
 
+from constants import Strings as k
 from . import messages
 
 class AbstractCommand(object):
@@ -46,9 +47,9 @@ class AddSkillCommand(AbstractCommand):
     """Creates a new skill in the graph"""
 
     _name = "new"
-    _description = "Create a new skill"
-    _example_arguments = ["fishing", "dancing"]
-    _skill_re = re.compile('^[\w][\w_]+$')
+    _description = f'Create a new {k.ENTITY_SHORT}'
+    _example_arguments = k.NEW_COMMAND_EXAMPLES
+    _skill_re = re.compile(k.NEW_SKILL_REGEX)
 
     def __init__(self, message, args):
         super(AddSkillCommand, self).__init__(message)
@@ -58,7 +59,7 @@ class AddSkillCommand(AbstractCommand):
         skill_name = re.sub(r'\W+', '_', args)
         print(f'🐛 skill_name: {skill_name}')
         if not AddSkillCommand._skill_re.match(skill_name):
-            raise Exception("Invalid skill name :shrug:")
+            raise Exception(f'Invalid {k.ENTITY_SHORT} name :shrug:')
         self.skill_name = skill_name.lower()
 
     async def execute(self, client):
@@ -68,7 +69,7 @@ class ListSkillsCommand(AbstractCommand):
     """A summary message with all skills"""
 
     _name = "list"
-    _description = "List all skills"
+    _description = f'List all {k.ENTITIES_LONG}'
     _example_arguments = None
 
     def __init__(self, message, args):
@@ -114,7 +115,7 @@ class DrawWordCloudCommand(AbstractCommand):
     """Creates an word cloud image for all interests"""
 
     _name = "wordcloud"
-    _description = "Creates a word-cloud of interests"
+    _description = f'Creates a word-cloud of {k.ENTITIES_LONG}'
     _example_arguments = None
 
     def __init__(self, message, args):
@@ -133,18 +134,18 @@ class DrawWordCloudCommand(AbstractCommand):
 class DrawPeopleSubgraphCommand(AbstractCommand):
     """Creates an image of the graph with a subset of people explicitly requested"""
 
-    _name = "people"
-    _description = "Draw graph with just a subset of people"
+    _name = k.PEOPLE
+    _description = f'Draw graph with just a subset of {k.PEOPLE}'
     _example_arguments = ["@Adam @Bob @Charlie"]
 
     def __init__(self, message, args):
         super(DrawPeopleSubgraphCommand, self).__init__(message)
         if not args:
-            raise Exception("Missing people names :shrug:")
+            raise Exception(f'Missing {k.PEOPLE} names :shrug:')
         mentions = re.findall('<@(?:!)?(\d+)>', args)
         print(f'🐛 mentions: {mentions}')
         if not mentions:
-            raise Exception("Missing people names :shrug:")
+            raise Exception(f'Missing {k.PEOPLE} names :shrug:')
         self.people_ids = [int(m) for m in mentions]
 
     async def execute(self, client):
@@ -160,18 +161,18 @@ class DrawPeopleSubgraphCommand(AbstractCommand):
 class DrawSkillsSubgraphCommand(AbstractCommand):
     """Creates an image of the graph with a subset of skills explicitly requested"""
 
-    _name = "skills"
-    _description = "Draw graph with just a subset of skills"
-    _example_arguments = ["hunt farm", "ui ux design"]
+    _name = k.DRAW_SKILLS_COMMAND_NAME
+    _description = f'Draw graph with just a subset of {k.ENTITIES_LONG}'
+    _example_arguments = k.DRAW_SKILLS_COMMAND_EXAMPLES
 
     def __init__(self, message, args):
         super(DrawSkillsSubgraphCommand, self).__init__(message)
         if not args:
-            raise Exception("Missing skill names :shrug:")
+            raise Exception(f'Missing {k.ENTITY_SHORT} names :shrug:')
         terms = [re.sub(r'\W+', '_', term) for term in args.split()]
         print(f'🐛 terms: {terms}')
         if not terms:
-            raise Exception("Missing skill names :shrug:")
+            raise Exception(f'Missing {k.ENTITY_SHORT} names :shrug:')
         self.terms = terms
 
     async def execute(self, client):

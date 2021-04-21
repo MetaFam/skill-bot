@@ -3,6 +3,7 @@ import re
 import traceback
 import discord
 
+from constants import Strings as k
 from . import messages
 
 class Controller(discord.Client):
@@ -61,7 +62,7 @@ class Controller(discord.Client):
             not message.author.bot and
             message.guild.id == self.guild_id and
             message.channel.id == self.channel_id and
-            message.content.startswith('!sb')
+            message.content.startswith(k.COMMAND_PREFIX)
         )
 
     def is_relevant_reaction(self, payload):
@@ -69,7 +70,7 @@ class Controller(discord.Client):
         return (
             payload.guild_id == self.guild_id and
             payload.channel_id == self.channel_id and
-            payload.emoji.name == "✅" and
+            payload.emoji.name == k.REACTION and
             self.repository.skill_exists(payload.message_id)
         )
 
@@ -85,15 +86,15 @@ class Controller(discord.Client):
                 embed=messages.new_skill_message(skill_name)
             )
             self.repository.add_skill(m.id, skill_name)
-            await m.add_reaction("✅")
+            await m.add_reaction(k.REACTION)
 
 
-    _command_re = re.compile('^!sb ([a-z]+)( .*)?$')
+    _command_re = re.compile(f'^{k.COMMAND_PREFIX} ([a-z]+)( .*)?$')
 
     def parse_command(self, message):
         match = Controller._command_re.match(message.content)
         if not match:
-            raise Exception("Unrecognized command, Try `!sb help`.")
+            raise Exception(f'Unrecognized command, Try `{k.COMMAND_PREFIX} help`.')
 
         command_name = match.group(1)
         command_args = match.group(2)
@@ -102,7 +103,7 @@ class Controller(discord.Client):
         command_class = self.commands_map.get(command_name)
 
         if not command_class:
-            raise Exception("Unrecognized command, Try `!sb help`.")
+            raise Exception(f'Unrecognized command, Try `{k.COMMAND_PREFIX} help`.')
 
         return command_class(message, command_args)
 
