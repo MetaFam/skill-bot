@@ -4,6 +4,8 @@ import discord
 from constants import Strings as k
 
 COLOR = discord.Colour.magenta()
+MAP_MESSAGE = "⚔\nBehold your growing arsenal"
+WORD_CLOUD_MESSAGE = "�� Many words may be used to describe your prowess... here are some of them:"
 
 HELLO = discord.Embed(
     title = k.HELLO_TITLE,
@@ -21,20 +23,20 @@ INFO = discord.Embed(
 )
 
 FULL_GRAPH = discord.Embed(
-    title = "☝️\nHere's your map!",
+    title = MAP_MESSAGE,
     colour = COLOR,
     description = f'It includes *all* {k.PEOPLE} and all {k.ENTITIES_LONG}'
 )
 
 WORD_CLOUD_GRAPH = discord.Embed(
-    title = "☝️\nHere's your words cloud!",
+    title = WORD_CLOUD_MESSAGE,
     colour = COLOR,
     description = f'Words size is proportional to {k.WORD_CLOUD_SIZE}'
 )
 
 def command_error_message(command, e):
     return discord.Embed(
-        title = "🤦‍♂️\nOoops!",
+        title = "�� \nYou seem to be mistaken...",
         colour = COLOR,
         description = f'''
             Something went wrong with command: `{command}`
@@ -50,7 +52,7 @@ def new_skill_message(skill_name):
         title = f'{k.SKILL_ICON} {skill_name} {k.SKILL_ICON}',
         colour = COLOR,
         description = f'''
-            New {k.ENTITY_SHORT} created.
+            New {k.ENTITY_SHORT} created. I have added it to our growing arsenal of skills.
 
             **React with {k.REACTION} to this message if you {k.REACTION_REASON}**
         '''
@@ -61,22 +63,22 @@ def duplicate_skill_message(skill_name: str, skill_id: int, guild_id: int, chann
         title = f'Duplicate {skill_name}',
         colour = COLOR,
         description = f'''
-            The {k.ENTITY_SHORT} already exists!
+            We already have these {k.ENTITY_SHORT} in our arsenal!
 
-            You should react with {k.REACTION} to the original message:
+            Might I suggest reacting with {k.REACTION} to the original message:
             https://discord.com/channels/{guild_id}/{channel_id}/{skill_id}
         '''
     )
 
 def help_message(commands):
     embed = discord.Embed(
-        title = "❓\nHelp!",
+        title = "�� \n How may I assist you, adventurer?",
         colour = COLOR,
         description = f'''
-            Use these commands to create a new {k.ENTITY_SHORT}.
-            Or visualize the current state of {k.ENTITIES_LONG} and {k.PEOPLE} connected to them.
+            I am at your disposal. You have but to ask of me to augment your armory of {k.ENTITY_SHORT}.
+            I can also chart the ties that bind {k.ENTITIES_LONG} and {k.PEOPLE} connected to them.
 
-            To associate yourself with a exsiting {k.ENTITY_SHORT}, reacting with {k.REACTION} to the corresponding bot message.
+            To associate yourself with exsiting {k.ENTITY_SHORT}, react with {k.REACTION} to my corresponding messages.
         '''
     )
     for c in commands:
@@ -114,7 +116,7 @@ def paginated_list_messages(guild_id: int, channel_id: int, skills: Iterable, pa
 def people_subgraph_message(people_ids: Iterable[int]):
     mentions = ", ".join(f'<@!{pid}>' for pid in people_ids)
     embed = discord.Embed(
-        title = "☝️\nHere's your map!",
+        title = MAP_MESSAGE,
         colour = COLOR,
         description = f'''
             It includes only a subset of {k.PEOPLE}: {mentions}
@@ -126,7 +128,7 @@ def people_subgraph_message(people_ids: Iterable[int]):
 def skills_subgraph_message(skills_terms: Iterable[str]):
     terms_string = ", ".join(f'"{term}"' for term in skills_terms)
     embed = discord.Embed(
-        title = "☝️\nHere's your map!",
+        title = MAP_MESSAGE,
         colour = COLOR,
         description = f'''
             It includes only {k.ENTITY_SHORT} matching: {terms_string}
