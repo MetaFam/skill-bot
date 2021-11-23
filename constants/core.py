@@ -75,7 +75,7 @@ def apply_raidguild_customization():
     Strings.HELLO_TITLE = '⚔️ Greetings RaidGuild. I am Warrick. Your Quartermaster ⚔️'
     Strings.INFO_MESSAGE = Strings.DESCRIPTION + '''
 
-        SkillBot (*RaidGuild edition*) helps you find and recruit members based on their skills and abilities
+        Quartermaster helps you find and recruit members based on their skills and abilities
 
         Suggestions? Bugs? Wanna help?
         Ping @mprime#9455
