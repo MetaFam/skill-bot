@@ -72,7 +72,7 @@ def apply_raidguild_customization():
     Strings.ENTITIES_LONG = 'skills and abilities'
     Strings.ENTITIES_LONG_UPPERCASE = "Skills and Abilities"
     Strings.ENTITY_SHORT = 'skills/abilities'
-    Strings.HELLO_TITLE = '⚔️ Hello RaidGuild! ⚔️'
+    Strings.HELLO_TITLE = '⚔️ Greetings RaidGuild. I am Warrick. Your Quartermaster ⚔️'
     Strings.INFO_MESSAGE = Strings.DESCRIPTION + '''
 
         SkillBot (*RaidGuild edition*) helps you find and recruit members based on their skills and abilities
