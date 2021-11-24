@@ -92,10 +92,10 @@ def help_message(commands):
 
 def list_message(guild_id: int, channel_id: int, skills: Iterable, num_pages: int, current_page: int):
     embed = discord.Embed(
-        title = f'List of {k.ENTITIES_LONG} (page {current_page} / {num_pages})',
+        title = f'Arsenal of {k.ENTITIES_LONG} (page {current_page} / {num_pages})',
         colour = COLOR,
         description = f'''
-            Click on the **show** link to jump to the {k.ENTITY_SHORT}
+            Click upon the **show** link to jump to the {k.ENTITY_SHORT}, adventurer!
         '''
     )
     for skill in skills:
