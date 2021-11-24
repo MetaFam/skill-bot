@@ -82,7 +82,7 @@ def apply_raidguild_customization():
 
         Source: <https://github.com/MetaFam/skill-bot>
     '''
-    Strings.WORD_CLOUD_SIZE = 'raiders'
+    Strings.WORD_CLOUD_SIZE = 'number of raiders'
     Strings.REACTION_REASON = 'have this skill or ability'
     Strings.NEW_COMMAND_EXAMPLES = ["typescript", "solidity", "design"]
     Strings.NEW_SKILL_REGEX = '^[\w][\w_]+$'
