@@ -17,7 +17,7 @@ HELLO = discord.Embed(
 )
 
 INFO = discord.Embed(
-    title = "ℹ️\nInfo!",
+    title = "️��\nStay a while and listen...",
     colour = COLOR,
     description = k.INFO_MESSAGE
 )
@@ -52,7 +52,7 @@ def new_skill_message(skill_name):
         title = f'{k.SKILL_ICON} {skill_name} {k.SKILL_ICON}',
         colour = COLOR,
         description = f'''
-            New {k.ENTITY_SHORT} created. I have added it to our growing arsenal of skills.
+            Our guild has new {k.ENTITY_SHORT} created! I have added it to our growing arsenal.
 
             **React with {k.REACTION} to this message if you {k.REACTION_REASON}**
         '''
@@ -138,7 +138,7 @@ def skills_subgraph_message(skills_terms: Iterable[str]):
 
 def stats_message(people_count: int, skills_count: int, people_skills_count: int):
     embed = discord.Embed(
-        title = "📊\nStatistics",
+        title = "�� \nSee how mighty our Guild is! Death to moloch!",
         colour = COLOR,
         description = f'''
             👤 {k.PEOPLE_UPPERCASE}: {people_count}
