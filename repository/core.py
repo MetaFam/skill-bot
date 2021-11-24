@@ -62,8 +62,10 @@ class SqliteRepository(object):
         self.db = sqlite3.connect(db_uri, uri=True)
         # add column for emoji if it doesn't exist
         try:
+            print(f'attempting to add emoji column to skills table')
             self.db.execute("ALTER TABLE skills ADD COLUMN skill_emoji TEXT")
         except:
+            print(f'passing on exception; column has already been added')
             pass
 
     def print_stats(self):
