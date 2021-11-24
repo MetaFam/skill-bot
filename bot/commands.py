@@ -47,7 +47,7 @@ class AddSkillCommand(AbstractCommand):
     """Creates a new skill in the graph"""
 
     _name = "new"
-    _description = f'Create a new {k.ENTITY_SHORT}'
+    _description = f'Creates new {k.ENTITY_SHORT}. Accepts a single-word skill and an optional emoji.'
     _example_arguments = k.NEW_COMMAND_EXAMPLES
     _skill_re = re.compile(k.NEW_SKILL_REGEX)
 
@@ -95,7 +95,7 @@ class DrawFullGraphCommand(AbstractCommand):
     """Creates an image of the whole graph"""
 
     _name = "fullgraph"
-    _description = "Draw the full graph"
+    _description = f'Draws the full graph of {k.PEOPLE} and {k.ENTITIES_LONG}'
     _example_arguments = None
 
     def __init__(self, message, args):

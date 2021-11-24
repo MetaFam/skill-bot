@@ -84,7 +84,7 @@ def apply_raidguild_customization():
     '''
     Strings.WORD_CLOUD_SIZE = 'number of raiders'
     Strings.REACTION_REASON = 'have this skill or ability'
-    Strings.NEW_COMMAND_EXAMPLES = ["typescript", "solidity", "design"]
+    Strings.NEW_COMMAND_EXAMPLES = ["typescript", "solidity ♦", "design "]
     Strings.NEW_SKILL_REGEX = '^[\w][\w_]+$'
     Strings.DRAW_SKILLS_COMMAND_NAME = 'skills'
     Strings.DRAW_SKILLS_COMMAND_EXAMPLES = ["React", "IPFS", "solidity smart-contracts"]
