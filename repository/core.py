@@ -76,9 +76,9 @@ class SqliteRepository(object):
         print("  ↔️  Connections: {}".format(self.get_people_skills_count()))
         print("--")
 
-    def add_skill(self, skill_id: int, skill_name: str):
+    def add_skill(self, skill_id: int, skill_name: str, skill_emoji: str):
         print(f'🌐 Add skill: {skill_name} (id: {skill_id})')
-        self.db.execute(SqliteRepository.__CREATE_IF_NOT_EXIST_SKILL, [skill_id, skill_name])
+        self.db.execute(SqliteRepository.__CREATE_IF_NOT_EXIST_SKILL, [skill_id, skill_name, skill_emoji])
         self.db.commit()
 
     def add_person(self, person_id: int, person_name: str):
