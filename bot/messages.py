@@ -99,6 +99,7 @@ def list_message(guild_id: int, channel_id: int, skills: Iterable, num_pages: in
         '''
     )
     for skill in skills:
+        emoji = k.SKILL_ICON if skill.emoji is None else skill.emoji 
         name_link=f'{k.SKILL_ICON} {skill.name}'
         description=f'''
             {len(skill.people)} {k.PEOPLE}
