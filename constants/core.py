@@ -75,7 +75,7 @@ def apply_raidguild_customization():
     Strings.HELLO_TITLE = '⚔️ Greetings RaidGuild. I am Warrick. Your Quartermaster ⚔️'
     Strings.INFO_MESSAGE = Strings.DESCRIPTION + '''
 
-        Quartermaster helps you find and recruit members based on their skills and abilities
+        I am Warrick, your Quartermatser. I am here to help you find fellow Guild members based on their skills and abilities.
 
         Suggestions? Bugs? Wanna help?
         Ping @mprime#9455
