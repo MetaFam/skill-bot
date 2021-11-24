@@ -14,7 +14,8 @@ class SqliteRepository(object):
         '''
         CREATE TABLE skills (
             skill_id INTEGER PRIMARY KEY,
-            skill_name TEXT NOT NULL
+            skill_name TEXT NOT NULL,
+            skill_emoji TEXT NOT NULL
         );
         ''',
         '''
@@ -41,7 +42,7 @@ class SqliteRepository(object):
     __ADD_PERSON_SKILL = 'INSERT OR IGNORE INTO people_skills VALUES (?, ?);'
     __REMOVE_PERSON_SKILL = 'DELETE FROM people_skills WHERE person_id = ? AND skill_id = ?;'
     __SKILL_EXISTS = 'SELECT EXISTS(SELECT 1 FROM skills WHERE skill_id = ?);'
-    __SELECT_ALL_SKILLS = "SELECT skill_id, skill_name FROM skills;"
+    __SELECT_ALL_SKILLS = "SELECT skill_id, skill_name, skill_emoji FROM skills;"
     __SELECT_ALL_PEOPLE = "SELECT person_id, person_name FROM people;"
     __SELECT_ALL_PEOPLE_SKILLS = "SELECT person_id, skill_id FROM people_skills;"
     __COUNT_SKILLS = "SELECT COUNT(*) FROM skills;"
@@ -59,6 +60,11 @@ class SqliteRepository(object):
             new_db.close()
         db_uri = f'file:{database_file}?mode=rw'
         self.db = sqlite3.connect(db_uri, uri=True)
+        # add column for emoji if it doesn't exist
+        try:
+            self.db.execute("ALTER TABLE skills ADD COLUMN skill_emoji TEXT")
+        except:
+            pass
 
     def print_stats(self):
         print("--")
@@ -103,9 +109,9 @@ class SqliteRepository(object):
     def get_skills(self) -> Iterable[model.Skill]:
         return [
             # Construct a new Skill
-            model.Skill(sid, sname)
+            model.Skill(sid, sname, semoji)
             # For each row returned
-            for sid, sname in self.db.execute(SqliteRepository.__SELECT_ALL_SKILLS).fetchall()
+            for sid, sname, semoji in self.db.execute(SqliteRepository.__SELECT_ALL_SKILLS).fetchall()
         ]
 
     def find_skill(self, skill_name):
@@ -138,21 +144,21 @@ class SqliteRepository(object):
 
     def find_skills_by_id(self, skills_ids: Iterable[int]) -> Iterable[model.Skill]:
         ids = ','.join([str(id) for id in skills_ids])
-        query = f"SELECT skill_id, skill_name FROM skills WHERE skill_id IN ({ids});"
+        query = f"SELECT skill_id, skill_name, skill_emoji FROM skills WHERE skill_id IN ({ids});"
         return [
             # Construct a new Skill
-            model.Skill(sid, sname)
+            model.Skill(sid, sname, semoji)
             # For each row returned
-            for sid, sname in self.db.execute(query).fetchall()
+            for sid, sname, semoji in self.db.execute(query).fetchall()
         ]
 
     def find_skills_by_name(self, skill_name: str) -> Iterable[model.Skill]:
         wildcard_name = f'%{skill_name}%'
         return [
             # Construct a new Skill
-            model.Skill(sid, sname)
+            model.Skill(sid, sname, semoji)
             # For each row returned
-            for sid, sname in self.db.execute('SELECT skill_id, skill_name FROM skills WHERE skill_name LIKE ?', [wildcard_name]).fetchall()
+            for sid, sname, semoji in self.db.execute('SELECT skill_id, skill_name, skill_emoji FROM skills WHERE skill_name LIKE ?', [wildcard_name]).fetchall()
         ]
 
     def find_people_skills_of_people(self, people_ids: Iterable[int]) -> Iterable[Tuple[int, int]]:

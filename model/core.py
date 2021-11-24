@@ -13,10 +13,11 @@ class Person(object):
 class Skill(object):
     """Represents a skill (or interest), has a name and references people with this skill"""
 
-    def __init__(self, id: int, name: str):
+    def __init__(self, id: int, name: str, emoji: str):
         super(Skill, self).__init__()
         self.id = id
         self.name = name
+        self.emoji = emoji
         self.people = set()
 
     def add_person(self, person):
