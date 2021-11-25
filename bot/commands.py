@@ -56,15 +56,19 @@ class AddSkillCommand(AbstractCommand):
         print(f'🐛 Args: {args}')
         if not args:
             raise Exception("Missing skill name :shrug:")
-        skill_name = re.sub(r'\W+', '_', args)
-        emoji = re.findall(r'[^\w\⁠s,. ]', args)
-        print(f'🐛 skill_name: {skill_name}, emoji {emoji}')
+        # strip the last underscore so as to not italicize skill names
+        skill_name = re.sub(r'\W+', '_', args)[0:-1]
+        skill_emoji = re.findall(k.EMOJI_REGEX, args)
+        if len(skill_emoji) != 1:
+            raise Exception(f'!sb new requires a single emoji after your skill name is supported; instead received: {skill_emoji}')
+        print(f'🐛 skill_name: {skill_name}, skill_emoji {skill_emoji}')
         if not AddSkillCommand._skill_re.match(skill_name):
             raise Exception(f'Invalid {k.ENTITY_SHORT} name :shrug:')
         self.skill_name = skill_name.lower()
+        self.skill_emoji = skill_emoji[0]
 
     async def execute(self, client):
-        await client.create_skill(self.skill_name)
+        await client.create_skill(self.skill_name, self.skill_emoji)
 
 class ListSkillsCommand(AbstractCommand):
     """A summary message with all skills"""

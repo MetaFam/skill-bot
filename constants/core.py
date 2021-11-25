@@ -37,6 +37,7 @@ class Strings:
     REACTION_REASON = 'have this skill'
     NEW_COMMAND_EXAMPLES = ["fishing", "dancing"]
     NEW_SKILL_REGEX = '^[\w][\w_]+$'
+    EMOJI_REGEX = r'[^!\w\s,]'
     DRAW_SKILLS_COMMAND_NAME = 'skills'
     DRAW_SKILLS_COMMAND_EXAMPLES = ["hunt farm", "ui ux design"]
 
