@@ -38,7 +38,7 @@ class SqliteRepository(object):
     ]
 
     __CREATE_IF_NOT_EXIST_PERSON = 'INSERT OR IGNORE INTO people VALUES (?, ?);'
-    __CREATE_IF_NOT_EXIST_SKILL = 'INSERT OR IGNORE INTO skills VALUES (?, ?);'
+    __CREATE_IF_NOT_EXIST_SKILL = 'INSERT OR IGNORE INTO skills VALUES (?, ?, ?);'
     __ADD_PERSON_SKILL = 'INSERT OR IGNORE INTO people_skills VALUES (?, ?);'
     __REMOVE_PERSON_SKILL = 'DELETE FROM people_skills WHERE person_id = ? AND skill_id = ?;'
     __SKILL_EXISTS = 'SELECT EXISTS(SELECT 1 FROM skills WHERE skill_id = ?);'
