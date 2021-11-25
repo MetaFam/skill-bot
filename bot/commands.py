@@ -47,7 +47,7 @@ class AddSkillCommand(AbstractCommand):
     """Creates a new skill in the graph"""
 
     _name = "new"
-    _description = f'Creates new {k.ENTITY_SHORT}. Accepts a single-word skill and an optional emoji.'
+    _description = f'Creates new {k.ENTITY_SHORT}. Accepts a single-word skill and a single emoji representing the skill.'
     _example_arguments = k.NEW_COMMAND_EXAMPLES
     _skill_re = re.compile(k.NEW_SKILL_REGEX)
 
@@ -57,7 +57,8 @@ class AddSkillCommand(AbstractCommand):
         if not args:
             raise Exception("Missing skill name :shrug:")
         skill_name = re.sub(r'\W+', '_', args)
-        print(f'🐛 skill_name: {skill_name}')
+        emoji = re.findall(r'[^\w\⁠s,. ]', args)
+        print(f'🐛 skill_name: {skill_name}, emoji {emoji}')
         if not AddSkillCommand._skill_re.match(skill_name):
             raise Exception(f'Invalid {k.ENTITY_SHORT} name :shrug:')
         self.skill_name = skill_name.lower()
