@@ -5,7 +5,7 @@ from constants import Strings as k
 
 COLOR = discord.Colour.magenta()
 MAP_MESSAGE = "⚔\nBehold your growing arsenal"
-WORD_CLOUD_MESSAGE = "�� Many words may be used to describe your prowess... here are some of them:"
+WORD_CLOUD_MESSAGE = "Many words may be used to describe our guild's prowess... here are some of them:"
 
 HELLO = discord.Embed(
     title = k.HELLO_TITLE,
@@ -17,7 +17,7 @@ HELLO = discord.Embed(
 )
 
 INFO = discord.Embed(
-    title = "️��\nStay a while and listen...",
+    title = f"{k.SCROLL_EMOJI_CODE}\nStay a while and listen...",
     colour = COLOR,
     description = k.INFO_MESSAGE
 )
@@ -36,7 +36,7 @@ WORD_CLOUD_GRAPH = discord.Embed(
 
 def command_error_message(command, e):
     return discord.Embed(
-        title = "�� \nYou seem to be mistaken...",
+        title = f"{k.COLLISION_EMOJI_CODE} \nYou seem to be mistaken...",
         colour = COLOR,
         description = f'''
             Something went wrong with command: `{command}`
@@ -72,13 +72,13 @@ def duplicate_skill_message(skill_name: str, skill_id: int, guild_id: int, chann
 
 def help_message(commands):
     embed = discord.Embed(
-        title = "�� \n How may I assist you, adventurer?",
+        title = f"{k.SCROLL_EMOJI_CODE} \n How may I assist you, adventurer?",
         colour = COLOR,
         description = f'''
-            I am at your disposal. You have but to ask of me to augment your armory of {k.ENTITY_SHORT}.
-            I can also chart the ties that bind {k.ENTITIES_LONG} and {k.PEOPLE} connected to them.
+            Use these commands to create new {k.ENTITY_SHORT}.
+            Or visualize the current state of {k.ENTITIES_LONG} and {k.PEOPLE} connected to them.
 
-            To associate yourself with exsiting {k.ENTITY_SHORT}, react with {k.REACTION} to my corresponding messages.
+            To associate yourself with exsiting {k.ENTITY_SHORT}, react with {k.REACTION} to the corresponding bot message.
         '''
     )
     for c in commands:
@@ -139,7 +139,7 @@ def skills_subgraph_message(skills_terms: Iterable[str]):
 
 def stats_message(people_count: int, skills_count: int, people_skills_count: int):
     embed = discord.Embed(
-        title = "�� \nSee how mighty our Guild is! Death to moloch!",
+        title = f"{k.MECHANICAL_ARM_EMOJI_CODE} \nSee how mighty our Guild is! Death to moloch!",
         colour = COLOR,
         description = f'''
             👤 {k.PEOPLE_UPPERCASE}: {people_count}
