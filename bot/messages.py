@@ -5,7 +5,7 @@ from constants import Strings as k
 
 COLOR = discord.Colour.magenta()
 MAP_MESSAGE = "⚔\nBehold your growing arsenal"
-WORD_CLOUD_MESSAGE = "Many words may be used to describe our guild's prowess... here are some of them:"
+WORD_CLOUD_MESSAGE = "Many words may be used to describe our guild's prowess... here are some of them"
 
 HELLO = discord.Embed(
     title = k.HELLO_TITLE,
@@ -100,7 +100,7 @@ def list_message(guild_id: int, channel_id: int, skills: Iterable, num_pages: in
     )
     for skill in skills:
         emoji = k.SKILL_ICON if skill.emoji is None else skill.emoji 
-        name_link=f'{k.SKILL_ICON} {skill.name}'
+        name_link=f'{emoji} {skill.name}'
         description=f'''
             {len(skill.people)} {k.PEOPLE}
             [show](https://discord.com/channels/{guild_id}/{channel_id}/{skill.id})
