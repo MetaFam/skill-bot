@@ -83,7 +83,7 @@ class Controller(discord.Client):
             )
         else:
             m = await self.get_channel(self.channel_id).send(
-                embed=messages.new_skill_message(skill_name)
+                embed=messages.new_skill_message(skill_name, skill_emoji)
             )
             self.repository.add_skill(m.id, skill_name, skill_emoji)
             await m.add_reaction(k.REACTION)

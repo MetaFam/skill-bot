@@ -47,9 +47,9 @@ def command_error_message(command, e):
         '''
     )
 
-def new_skill_message(skill_name):
+def new_skill_message(skill_name, skill_emoji):
     return discord.Embed(
-        title = f'{k.SKILL_ICON} {skill_name} {k.SKILL_ICON}',
+        title = f'{skill_emoji} {skill_name} {skill_emoji}',
         colour = COLOR,
         description = f'''
             Our guild has new {k.ENTITY_SHORT} created! I have added it to our growing arsenal.
