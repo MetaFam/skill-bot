@@ -5,6 +5,10 @@ import model
 class FullGraphDotRenderer(object):
     """Renders the full graph into a graphviz.Digraph object"""
 
+    CLOUD_FONT = "Space Mono"
+    ELLIPSE_COLOR = "#B66AD6"
+    RECTANGLE_COLOR = "#FF3864"
+
     def __init__(self, graph: model.Graph):
         super(FullGraphDotRenderer, self).__init__()
         self.graph = graph
@@ -17,7 +21,7 @@ class FullGraphDotRenderer(object):
             ('bgcolor', 'black'),
             ('K', '0.6'),
             ('repulsiveforce', '1.5'),
-            ('fontname', 'Arial'),
+            ('fontname', FullGraphDotRenderer.CLOUD_FONT),
         ]
         edge_attributes = [
             ('color', 'white')
@@ -25,9 +29,9 @@ class FullGraphDotRenderer(object):
         font_sizes = WordCloudDotRenderer.calculate_font_size(self.graph)
         dg = Digraph(comment='Skill Graph', graph_attr=graph_attributes, edge_attr=edge_attributes)
         for p in self.graph.people.values():
-            dg.node(f'P{p.id}', p.name, shape="ellipse", color='lightblue', style='filled')
+            dg.node(f'P{p.id}', p.name, shape="ellipse", color=FullGraphDotRenderer.ELLIPSE_COLOR, style='filled')
         for s in self.graph.skills.values():
-            dg.node(f'S{s.id}', s.name, shape="rectangle", color='lightpink', style='filled', fontsize=str(font_sizes[s.id]))
+            dg.node(f'S{s.id}', s.name, shape="rectangle", color=FullGraphDotRenderer.RECTANGLE_COLOR, style='filled', fontsize=str(font_sizes[s.id]))
         for p, s in self.graph.people_skills:
             dg.edge(f'P{p.id}', f'S{s.id}')
         return dg
@@ -44,19 +48,19 @@ class SubGraphDotRenderer(object):
             ('overlap', 'false'),
             ('layout', 'sfdp'),
             ('ranksep', '3'),
-            ('bgcolor', 'lightgrey'),
+            ('bgcolor', 'black'),
             ('K', '0.6'),
             ('repulsiveforce', '1.5'),
-            ('fontname', 'Arial'),
+            ('fontname',FullGraphDotRenderer.CLOUD_FONT),
         ]
         edge_attributes = [
             ('color', 'black')
         ]
         dg = Graph(comment='Skill Graph', graph_attr=graph_attributes, edge_attr=edge_attributes)
         for p in self.graph.people.values():
-            dg.node(f'P{p.id}', p.name, shape="ellipse", color='lightblue', style='filled')
+            dg.node(f'P{p.id}', p.name, shape="ellipse", color=FullGraphDotRenderer.ELLIPSE_COLOR, style='filled')
         for s in self.graph.skills.values():
-            dg.node(f'S{s.id}', s.name, shape="rectangle", color='lightpink', style='filled')
+            dg.node(f'S{s.id}', s.name, shape="rectangle", color=FullGraphDotRenderer.RECTANGLE_COLOR, style='filled')
         for p, s in self.graph.people_skills:
             dg.edge(f'P{p.id}', f'S{s.id}')
         return dg
@@ -73,7 +77,7 @@ class WordCloudDotRenderer(object):
             ('overlap', 'false'),
             ('layout', 'circo'),
             ('model', 'subset'),
-            ('fontname', 'Arial'),
+            ('fontname', FullGraphDotRenderer.CLOUD_FONT),
         ]
         dg = Graph(comment='Skills Word Cloud', graph_attr=graph_attributes)
         font_sizes = WordCloudDotRenderer.calculate_font_size(self.graph)

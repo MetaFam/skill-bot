@@ -74,7 +74,7 @@ class Controller(discord.Client):
             self.repository.skill_exists(payload.message_id)
         )
 
-    async def create_skill(self, skill_name: str):
+    async def create_skill(self, skill_name: str, skill_emoji: str):
         sid = self.repository.find_skill(skill_name)
         if sid:
             print("🐛 Duplicate skill: " + skill_name)
@@ -83,9 +83,9 @@ class Controller(discord.Client):
             )
         else:
             m = await self.get_channel(self.channel_id).send(
-                embed=messages.new_skill_message(skill_name)
+                embed=messages.new_skill_message(skill_name, skill_emoji)
             )
-            self.repository.add_skill(m.id, skill_name)
+            self.repository.add_skill(m.id, skill_name, skill_emoji)
             await m.add_reaction(k.REACTION)
 
 

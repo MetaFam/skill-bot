@@ -47,7 +47,7 @@ class AddSkillCommand(AbstractCommand):
     """Creates a new skill in the graph"""
 
     _name = "new"
-    _description = f'Create a new {k.ENTITY_SHORT}'
+    _description = f'Creates new {k.ENTITY_SHORT}. Accepts a single-word skill and a single emoji representing the skill.'
     _example_arguments = k.NEW_COMMAND_EXAMPLES
     _skill_re = re.compile(k.NEW_SKILL_REGEX)
 
@@ -56,14 +56,19 @@ class AddSkillCommand(AbstractCommand):
         print(f'🐛 Args: {args}')
         if not args:
             raise Exception("Missing skill name :shrug:")
-        skill_name = re.sub(r'\W+', '_', args)
-        print(f'🐛 skill_name: {skill_name}')
+        # strip the last underscore so as to not italicize skill names
+        skill_name = re.sub(r'\W+', '_', args)[0:-1]
+        skill_emoji = re.findall(k.EMOJI_REGEX, args)
+        if len(skill_emoji) != 1:
+            raise Exception(f'Please enter a single emoji after your skill name, for example: "Python :snake:"')
+        print(f'🐛 skill_name: {skill_name}, skill_emoji {skill_emoji}')
         if not AddSkillCommand._skill_re.match(skill_name):
             raise Exception(f'Invalid {k.ENTITY_SHORT} name :shrug:')
         self.skill_name = skill_name.lower()
+        self.skill_emoji = skill_emoji[0]
 
     async def execute(self, client):
-        await client.create_skill(self.skill_name)
+        await client.create_skill(self.skill_name, self.skill_emoji)
 
 class ListSkillsCommand(AbstractCommand):
     """A summary message with all skills"""
@@ -95,7 +100,7 @@ class DrawFullGraphCommand(AbstractCommand):
     """Creates an image of the whole graph"""
 
     _name = "fullgraph"
-    _description = "Draw the full graph"
+    _description = f'Draws the full graph of {k.PEOPLE} and {k.ENTITIES_LONG}'
     _example_arguments = None
 
     def __init__(self, message, args):
