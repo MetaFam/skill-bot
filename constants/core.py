@@ -77,6 +77,7 @@ def apply_metagame_customization():
 # Light RaidGuild customization
 def apply_raidguild_customization():
     print(f'Applying customization: ⚔️ RaidGuild')
+    COMMAND_PREFIX = '!qm'
     Strings.DESCRIPTION = f'''
         After countless raids and demons slain, the Guild has appointed me as the Quartermaster.
         
