@@ -1,4 +1,5 @@
 import re
+import emoji
 from discord import File
 
 from constants import Strings as k
@@ -55,17 +56,20 @@ class AddSkillCommand(AbstractCommand):
         super(AddSkillCommand, self).__init__(message)
         print(f'🐛 Args: {args}')
         if not args:
-            raise Exception("Missing skill name :shrug:")
+            raise Exception("Missing skill name and emoji :shrug:")
         # strip the last underscore so as to not italicize skill names
         skill_name = re.sub(r'\W+', '_', args)[0:-1]
-        skill_emoji = re.findall(k.EMOJI_REGEX, args)
-        if len(skill_emoji) != 1:
-            raise Exception(f'Please enter a single emoji after your skill name, for example: "Python :snake:"')
-        print(f'🐛 skill_name: {skill_name}, skill_emoji {skill_emoji}')
+        # emoji_rejex searches for non-whitespace, non-printable characters
+        # return the starting index of the first match
+        skill_emoji_match= re.search(k.EMOJI_REGEX, args)
+        skill_emoji= "" if skill_emoji_match is None else args[skill_emoji_match.start():]
+        if skill_emoji not in emoji.UNICODE_EMOJI['en']:
+            raise Exception(f'Please enter a single emoji after your skill name, for example: "Python :snake:; received "{skill_emoji}""; server emojis are not yet supported"')
+        print(f'🐛 skill_name: {skill_name}, skill_emoji {skill_emoji}, length {len(skill_emoji)}')
         if not AddSkillCommand._skill_re.match(skill_name):
             raise Exception(f'Invalid {k.ENTITY_SHORT} name :shrug:')
         self.skill_name = skill_name.lower()
-        self.skill_emoji = skill_emoji[0]
+        self.skill_emoji = skill_emoji
 
     async def execute(self, client):
         await client.create_skill(self.skill_name, self.skill_emoji)
@@ -146,11 +150,12 @@ class DrawPeopleSubgraphCommand(AbstractCommand):
     def __init__(self, message, args):
         super(DrawPeopleSubgraphCommand, self).__init__(message)
         if not args:
-            raise Exception(f'Missing {k.PEOPLE} names :shrug:')
+            raise Exception()
         mentions = re.findall('<@(?:!)?(\d+)>', args)
         print(f'🐛 mentions: {mentions}')
         if not mentions:
-            raise Exception(f'Missing {k.PEOPLE} names :shrug:')
+            ex_msg = f"{k.DRAW_PEOPLE_ERROR_MESSAGE} _Example_ `{k.COMMAND_PREFIX} {k.PEOPLE} {self._example_arguments[0]}`"
+            raise Exception(ex_msg)
         self.people_ids = [int(m) for m in mentions]
 
     async def execute(self, client):
@@ -173,11 +178,11 @@ class DrawSkillsSubgraphCommand(AbstractCommand):
     def __init__(self, message, args):
         super(DrawSkillsSubgraphCommand, self).__init__(message)
         if not args:
-            raise Exception(f'Missing {k.ENTITY_SHORT} names :shrug:')
+            raise Exception(f'{k.DRAW_SKILLS_ERROR_MESSAGE}. No {k.ENTITY_SHORT} supplied!')
         terms = [re.sub(r'\W+', '_', term) for term in args.split()]
         print(f'🐛 terms: {terms}')
         if not terms:
-            raise Exception(f'Missing {k.ENTITY_SHORT} names :shrug:')
+            raise Exception(f'{k.DRAW_SKILLS_ERROR_MESSAGE}. {k.ENTITY_SHORT} supplied ({repr(terms)}) not recognized!')
         self.terms = terms
 
     async def execute(self, client):

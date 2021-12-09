@@ -77,7 +77,7 @@ Alternatively, using `nix`:
 
 The `dot` program must be installed (on Linux and macOS, this is part of the `graphviz` package). You can learn more about this format on [Wikipedia](https://en.wikipedia.org/wiki/Graphviz) or on the [official website](https://www.graphviz.org/).
 
-Additional fonts may be necessary to properly display emojis on Linux. Consider installing the `fonts-noto` package.
+Additional fonts may be necessary to properly display emojis on Linux. Consider installing the `fonts-noto` package. Additional fonts for use with graphviz can also be installed via fontconfig (see https://gist.github.com/jacksonpradolima/840b4a20c617204a65b15da61e124bf6).
 
 A sample installation of dependencies on an Ubuntu distro:
 

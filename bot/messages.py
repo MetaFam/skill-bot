@@ -84,13 +84,18 @@ def help_message(commands):
         '''
     )
     for c in commands:
-        command_string = f'`{k.COMMAND_PREFIX} {c._name}`'
-        description = c._description
-        if c._example_arguments:
-            for ex in c._example_arguments:
-                description += f'\n*Example*: `{k.COMMAND_PREFIX} {c._name} {ex}`'
-        embed.add_field(name=command_string, value=description)
+        command_help_message(c, embed)
     return embed
+
+def command_help_message(c, embed):
+    command_string = f'`{k.COMMAND_PREFIX} {c._name}`'
+    description = c._description
+    if c._example_arguments:
+        for ex in c._example_arguments:
+            description += f'\n*Example*: `{k.COMMAND_PREFIX} {c._name} {ex}`'
+    embed.add_field(name=command_string, value=description)
+    return embed
+
 
 def list_message(guild_id: int, channel_id: int, skills: Iterable, num_pages: int, current_page: int):
     embed = discord.Embed(

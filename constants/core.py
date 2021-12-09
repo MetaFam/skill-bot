@@ -33,13 +33,14 @@ class Strings:
     '''
     PEOPLE = 'people'
     WORD_CLOUD_SIZE = 'number of people'
-    ERROR_CONTACT_PERSON = '@mprime#9455'
+    ERROR_CONTACT_PERSON = '@mprime#9455, @flip#3394, @govinda#3746'
     REACTION_REASON = 'have this skill'
     NEW_COMMAND_EXAMPLES = ["fishing", "dancing"]
     NEW_SKILL_REGEX = '^[\w][\w_]+$'
     EMOJI_REGEX = r'[^!\w\s,]'
     DRAW_SKILLS_COMMAND_NAME = 'skills'
     DRAW_SKILLS_COMMAND_EXAMPLES = ["hunt farm", "ui ux design"]
+    DRAW_SKILLS_ERROR_MESSAGE = 'Could not find the people. Make sure the people have an \'@\' before their handle!'
 
 # Light metagame customization.
 # Expand to interests and hobbies in addition to skills
@@ -57,22 +58,22 @@ def apply_metagame_customization():
     Strings.ENTITIES_LONG_UPPERCASE = 'Skills, Interests, Hobbies'
     Strings.ENTITY_SHORT = "skill/interest/hobbies"
     Strings.HELLO_TITLE = '🐙 Hello MetaGame! 🐙'
-    Strings.INFO_MESSAGE = Strings.DESCRIPTION + '''
+    Strings.INFO_MESSAGE = Strings.DESCRIPTION + f'''
         This bot is an experimental multiplayer **game** to facilitate discovery of common interests among players.
 
         Suggestions? Bugs? Wanna help?
-        Ping @mprime.
+        Ping {Strings.ERROR_CONTACT_PERSON}.
 
         Source: <https://github.com/MetaFam/skill-bot>
     '''
     Strings.PEOPLE = 'players'
     Strings.WORD_CLOUD_SIZE = 'number of players'
-    Strings.ERROR_CONTACT_PERSON = '@mprime'
     Strings.REACTION_REASON = 'have this skill/interest/hobby'
     Strings.NEW_COMMAND_EXAMPLES = ["NFTs", "Python", "debating"]
     Strings.NEW_SKILL_REGEX = '^[\w][\w_]+$'
     Strings.DRAW_SKILLS_COMMAND_NAME = 'skills'
     Strings.DRAW_SKILLS_COMMAND_EXAMPLES = ["nft web3", "cooking"]
+    Strings.DRAW_PEOPLE_ERROR_MESSAGE = f'Could not find the {Strings.PEOPLE}. Make sure the {Strings.PEOPLE} have an \'@\' before their handle!'
 
 # Light RaidGuild customization
 def apply_raidguild_customization():
@@ -93,13 +94,13 @@ def apply_raidguild_customization():
     Strings.ENTITIES_LONG_UPPERCASE = "Skills and Abilities"
     Strings.ENTITY_SHORT = 'skills/abilities'
     Strings.HELLO_TITLE = f'{Strings.RG_WARRIOR_EMOJI_CODE}** Good day adventurer! Welcome to the Skill Hall!** {Strings.JAPANESE_CASTLE_EMOJI_CODE}'
-    Strings.INFO_MESSAGE = Strings.DESCRIPTION + '''
+    Strings.INFO_MESSAGE = Strings.DESCRIPTION + f'''
 
         I am known by the name Quartermaster and I am here to help you find Guild members based on their skills to help you recruit and form parties.
         {Strings.RG_WARRIOR_EMOJI_CODE} {Strings.RG_ALCHEMIST_EMOJI_CODE} {Strings.RG_ARCHER_EMOJI_CODE} {Strings.RG_MONK_EMOJI_CODE} {Strings.RG_TAVERN_EMOJI_CODE}
 
         Suggestions? Bugs? Wanna help?
-        Ping @govinda#3746 and @mprime#9455 
+        Ping {Strings.ERROR_CONTACT_PERSON}
 
         Source: <https://github.com/MetaFam/skill-bot>
     '''
@@ -109,3 +110,5 @@ def apply_raidguild_customization():
     Strings.NEW_SKILL_REGEX = '^[\w][\w_]+$'
     Strings.DRAW_SKILLS_COMMAND_NAME = 'skills'
     Strings.DRAW_SKILLS_COMMAND_EXAMPLES = ["React", "IPFS", "solidity smart-contracts"]
+    Strings.DRAW_SKILLS_ERROR_MESSAGE = f'Could not find the {Strings.ENTITY_SHORT}.'
+    Strings.DRAW_PEOPLE_ERROR_MESSAGE = f'Could not find the {Strings.PEOPLE}. Make sure the {Strings.PEOPLE} have an \'@\' before their handle!'
