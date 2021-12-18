@@ -15,6 +15,8 @@ if CUSTOMIZATION == "metagame":
     constants.apply_metagame_customization()
 elif CUSTOMIZATION == "raidguild":
     constants.apply_raidguild_customization()
+else:
+    constants.apply_generic_string_formatting()
 
 
 import bot
