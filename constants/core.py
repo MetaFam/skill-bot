@@ -1,5 +1,14 @@
+import discord
+
 # Hacky way to customize strings across multiple servers/channels/use-cases
 # Not pretty but works alright, and clean enough.
+class Cosmetics:
+    # Note that custom fonts are not guaranteed to be installed on the system
+    RENDER_CLOUD_FONT = "Source Serif Pro"
+    RENDER_ELLIPSE_COLOR = "#B66AD6"
+    RENDER_RECTANGLE_COLOR = "#FF3864"
+
+    DISCORD_MESSAGE_COLOR = discord.Colour.magenta()
 
 class Strings:
     COMMAND_PREFIX = '!sb'
