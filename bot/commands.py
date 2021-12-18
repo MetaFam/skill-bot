@@ -47,7 +47,7 @@ class AddSkillCommand(AbstractCommand):
     """Creates a new skill in the graph"""
 
     _name = "new"
-    _description = f'Create a new {k.ENTITY_SHORT}'
+    _description = f'Creates new {k.ENTITY_SHORT}'
     _example_arguments = k.NEW_COMMAND_EXAMPLES
     _skill_re = re.compile(k.NEW_SKILL_REGEX)
 
@@ -95,7 +95,7 @@ class DrawFullGraphCommand(AbstractCommand):
     """Creates an image of the whole graph"""
 
     _name = "fullgraph"
-    _description = "Draw the full graph"
+    _description = f'Draws the full graph of {k.PEOPLE} and {k.ENTITIES_LONG}'
     _example_arguments = None
 
     def __init__(self, message, args):
@@ -141,11 +141,12 @@ class DrawPeopleSubgraphCommand(AbstractCommand):
     def __init__(self, message, args):
         super(DrawPeopleSubgraphCommand, self).__init__(message)
         if not args:
-            raise Exception(f'Missing {k.PEOPLE} names :shrug:')
+            raise Exception(f"{k.COMMAND_PREFIX} {k.PEOPLE} had no {k.PEOPLE} supplied!")
         mentions = re.findall('<@(?:!)?(\d+)>', args)
         print(f'🐛 mentions: {mentions}')
         if not mentions:
-            raise Exception(f'Missing {k.PEOPLE} names :shrug:')
+            ex_msg = f"{k.DRAW_PEOPLE_ERROR_MESSAGE} _Example_ `{k.COMMAND_PREFIX} {k.PEOPLE} {self._example_arguments[0]}`"
+            raise Exception(ex_msg)
         self.people_ids = [int(m) for m in mentions]
 
     async def execute(self, client):
@@ -168,11 +169,11 @@ class DrawSkillsSubgraphCommand(AbstractCommand):
     def __init__(self, message, args):
         super(DrawSkillsSubgraphCommand, self).__init__(message)
         if not args:
-            raise Exception(f'Missing {k.ENTITY_SHORT} names :shrug:')
+            raise Exception(f'No {k.ENTITY_SHORT} supplied!')
         terms = [re.sub(r'\W+', '_', term) for term in args.split()]
         print(f'🐛 terms: {terms}')
         if not terms:
-            raise Exception(f'Missing {k.ENTITY_SHORT} names :shrug:')
+            raise Exception(f'{k.DRAW_SKILLS_ERROR_MESSAGE}. {k.ENTITY_SHORT} supplied ({repr(terms)}) not recognized!')
         self.terms = terms
 
     async def execute(self, client):
