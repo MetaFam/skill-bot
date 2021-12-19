@@ -141,7 +141,7 @@ def apply_raidguild_customization():
     '''
     Strings.WORD_CLOUD_SIZE = 'number of raiders'
     Strings.REACTION_REASON = 'have this skill or ability'
-    Strings.NEW_COMMAND_EXAMPLES = ["typescript", "solidity ♦", f"design {Strings.TRIANGLE_RULER_EMOJI_CODE}"]
+    Strings.NEW_COMMAND_EXAMPLES = ["typescript", "solidity", "design"]
     Strings.NEW_SKILL_REGEX = '^[\w][\w_]+$'
 
     Strings.STATS_MESSAGE_TITLE = f"{Strings.MECHANICAL_ARM_EMOJI_CODE} \nSee how mighty our Guild is! Death to Moloch!"
