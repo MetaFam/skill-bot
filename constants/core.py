@@ -41,7 +41,7 @@ class Strings:
     HELLO_TITLE = 'Hello World!'
     PEOPLE = 'people'
     WORD_CLOUD_SIZE = 'number of people'
-    ERROR_CONTACT_PERSON = '@mprime#9455, @flip#3394, @govinda#3746'
+    ERROR_CONTACT_PERSON = '@mprime#9455'
     REACTION_REASON = 'have this skill'
     NEW_COMMAND_EXAMPLES = ["fishing", "dancing"]
     DRAW_SKILLS_COMMAND_NAME = 'skills'
@@ -111,6 +111,7 @@ def apply_metagame_customization():
 # Light RaidGuild customization
 def apply_raidguild_customization():
     print(f'Applying customization: ⚔️ RaidGuild')
+    Strings.ERROR_CONTACT_PERSON = '@mprime#9455, @flip#3394, @govinda#3746'
     Strings.COMMAND_PREFIX = '!qm'
     Strings.DESCRIPTION = f'''
         After countless raids and demons slain, the Guild has appointed me as the Quartermaster.
