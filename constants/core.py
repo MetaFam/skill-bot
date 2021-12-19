@@ -31,7 +31,7 @@ class Strings:
     SKILL_ICON = '⭐️'
     REACTION="✅"
     ACCEPTED_REACTIONS = [REACTION]
-    
+
     DESCRIPTION = 'SkillBot helps you discover **skills** among people in your community 💕'
     PEOPLE = 'people'
     PEOPLE_UPPERCASE = 'People'
@@ -114,7 +114,7 @@ def apply_raidguild_customization():
     Strings.COMMAND_PREFIX = '!qm'
     Strings.DESCRIPTION = f'''
         After countless raids and demons slain, the Guild has appointed me as the Quartermaster.
-        
+
         My is to job help you find fellow Guild members based on their skills and abilities.
         {Strings.RG_WARRIOR_EMOJI_CODE} {Strings.RG_ALCHEMIST_EMOJI_CODE} {Strings.RG_ARCHER_EMOJI_CODE} {Strings.RG_MONK_EMOJI_CODE} {Strings.RG_TAVERN_EMOJI_CODE}
     '''
@@ -129,7 +129,7 @@ def apply_raidguild_customization():
     Strings.HELLO_TITLE = f'{Strings.RG_WARRIOR_EMOJI_CODE}** Good day adventurer! Welcome to the Skill Hall!** {Strings.JAPANESE_CASTLE_EMOJI_CODE}'
     Strings.INFO_MESSAGE_DESCRIPTION = f'''
         After countless raids and demons slain, the Guild has appointed me as the Quartermaster.
-        
+
         My is to job help you find fellow Guild members based on their skills and abilities.
         {Strings.RG_WARRIOR_EMOJI_CODE} {Strings.RG_ALCHEMIST_EMOJI_CODE} {Strings.RG_ARCHER_EMOJI_CODE} {Strings.RG_MONK_EMOJI_CODE} {Strings.RG_TAVERN_EMOJI_CODE}
 
