@@ -16,6 +16,8 @@ To facilitate social bonding and skills exchange:
 
 ### Examples
 
+Some interactive visualizations of the data are available [here](https://metafam.github.io/skill-bot/examples):
+
 Full graph, including all people, all skills/interests and their links:
 
 ![Full graph](sample/full-graph.jpg)

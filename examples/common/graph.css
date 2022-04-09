@@ -1,0 +1,39 @@
+/*
+  Person: #f853c5 #f896d9
+  Skill: #8753f8 #b697f8
+  Link: #8bf872
+*/
+
+line.edge {
+  stroke: #8bf872;
+  opacity: 60%
+}
+
+circle.person {
+  stroke-width: 0.5;
+  fill: #f853c5;
+  stroke: #f896d9;
+}
+
+text.person-label {
+  stroke: #f853c5;
+  stroke-width: 0.5;
+  fill: #f896d9;
+}
+
+circle.skill {
+  stroke: #9a35ff;
+  stroke-width: 0.5;
+  fill: #b697f8;
+}
+
+text.skill-label {
+  stroke: #b697f8;
+  stroke-width: 0.5;
+  fill: #8bb4e0;
+}
+
+svg {
+  font-size: 180%;
+  background-color: #D3D3D3
+}

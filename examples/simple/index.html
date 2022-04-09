@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Skillbot - Simple (test data)</title>
+    <link rel="stylesheet" href="../common/graph.css" />
+    <style>
+    </style>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- <script src="./data-interests.js"></script> -->
+    <script src="../data/simple.js"></script>
+    <script src="../common/graph.js"></script>
+  </head>
+  <body>
+    <h3 id="d3-canary">If you can read this, something is broken 😰</h3>
+    <svg id="canvas">
+        <defs>
+        <!-- https://codepen.io/finnhvman/pen/poEVLNE -->
+        <filter id="turbulence">
+        <feTurbulence baseFrequency="0.2"/>
+        <feColorMatrix values="1 0 0 9 -4
+                               0 0 1 9 -4
+                               0 1 0 9 -4
+                               0 0 0 0  1"/>
+        </filter>
+        </defs>
+        <rect width="100%" height="100%" filter="url(#turbulence)"/>
+    </svg>
+  </body>
+  <script>
+    force_graph();
+  </script>
+</html>
