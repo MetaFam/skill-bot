@@ -8,3 +8,5 @@ __pycache__
 *.dot
 *.db
 *.sqlite
+*-export.json
+*-export.js
